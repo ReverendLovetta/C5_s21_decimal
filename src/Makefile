@@ -3,5 +3,5 @@ all:
 	gcc *.o -o main
 
 clean:
+	@rm *.o
 	@rm main
-	@rm *.0
