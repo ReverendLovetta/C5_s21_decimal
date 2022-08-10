@@ -9,6 +9,7 @@
 
 #define SIGN 0x80000000
 #define MAX_INT_SHIFT 31
+#define BUF 1024 
 
 typedef struct {
     int bits[4];
@@ -22,6 +23,6 @@ int s21_from_int_to_decimal(int src, s21_decimal *dst);
 // Возвращает 1, если искомый бит выствлен
 int checkbit(const int value, const int position);
 // Функция для вывода decimal в виде строки
-int dec_output(s21_decimal *a);
+int dec_output(s21_decimal *a, char *result);
 
 #endif
