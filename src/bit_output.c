@@ -1,9 +1,5 @@
 #include "./s21_decimal.h"
 
-int checkbit(const int value, const int position) {
-    return ((value & (1 << position)) != 0);
-}
-
 int bit_output(s21_decimal *a) {
     size_t len = sizeof(int) * CHAR_BIT;
     for (int j = 0; j < 4; j++) {
