@@ -1,5 +1,9 @@
 #include "./s21_decimal.h"
 
+#define PERIOD_START 17
+#define PERIOD_END 23 
+
+
 
 int mult_by_2(char *a, char *result);
 int exp_string(char *result, int degree);
@@ -7,14 +11,17 @@ size_t max_lenght(char *num1, char *num2);
 int char_to_int(char a);
 int summ_two_string(char *num1, char *num2, char *result);
 void revers(char *src, int size);
+int period_calc(int a);
+void dot_insert(char *result, int period);
 
 int dec_output(s21_decimal *a, char *main_result) {
     size_t len = sizeof(int) * CHAR_BIT;
-    char result[BUF];
-    char mid_result[BUF];
+    size_t period = 1;
+    char result[BUF], mid_result[BUF]; 
     memset(result, '\0', BUF);
     memset(mid_result, '\0', BUF);
     memset(main_result, '\0', BUF);
+    period = period_calc(a->bits[3]);
     result[0] = '0';
     mid_result[0] = '0';
     int degree = -1;
@@ -30,6 +37,8 @@ int dec_output(s21_decimal *a, char *main_result) {
     }
     if (checkbit(a->bits[3], MAX_INT_SHIFT) == 1)
         result[strlen(result)] = '-';
+    dot_insert(result, period);
+    // Функция для добавляния точки в число
     revers(result, strlen(result));
     strcpy(main_result, result);
     return EXIT_SUCCESS;
@@ -98,4 +107,43 @@ void revers(char *src, int size) {
         src[i] = src[--count];
         src[count] = buff;
     }
+}
+
+int period_calc(int a) {
+    size_t result = 1;
+    for (int i = PERIOD_START; i <= PERIOD_END; i++) {
+        if (checkbit(a, i) == 1) {
+            result = 10 * result;
+        }
+    }
+    return result;
+}
+    
+void dot_insert(char *result, int period) {
+    char temp[BUF];
+    memset(temp, '\0', BUF);
+    int j = 0, i = 0;
+    size_t k = strlen(result);
+    while ((period = period / 10) > 1) {
+        if (result[j] == '\0')
+            temp[i] = '0';
+        else
+            temp[i] = result[j];
+        i++; j++; k--;
+    }
+    if (k <= 0) {
+        temp[i] = '.';
+        if (result[j] == '\0') {
+            i++;
+            temp[i] = '0';
+        } else {
+            while (result[j] != '\0') {
+                i++;
+                temp[i] = result[j];
+                j++;
+            }
+        }
+    }
+    strcpy(temp, result);
+    strcpy(result, temp);
 }
