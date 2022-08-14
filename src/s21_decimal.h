@@ -26,15 +26,23 @@ int s21_from_int_to_decimal(int src, s21_decimal *dst);
 int checkbit(const int value, const int position);
 // Функция для вывода decimal в виде строки
 int dec_output(s21_decimal *a, char *result);
+<<<<<<< HEAD
 // Функция для копирования значения из одного deecimal в другой
 int s21_decimal_copy(s21_decimal src, s21_decimal *dest);
 // Функция для умножения decimal на -1
 int s21_negate(s21_decimal value, s21_decimal *result);
+
+// Все функции необходимые для обработки флоат
+
 // Фунция для отображение флоата в памяти
-void float_bit_output(float *a);
+float float_bit_output(float *a, float mantissa, int *exponent,
+                       s21_decimal *dst, int *counter_step);
 // Функция для записи степени в децимал
 void zapis_stepeni_v_decimal(int a, s21_decimal *dst);
 int s21_from_float_to_decimal(float src, s21_decimal *dst);
 int s21_from_decimal_to_float(s21_decimal *dst, float src);
+void perezapis_decimal(s21_decimal *src, s21_decimal *dst, int *exponent);
+void perezapis_decimal_exp_menshe_23(float *a, float mantissa, int *exponent,
+                                     s21_decimal *dst, int *counter_step);
 
 #endif
