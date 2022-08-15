@@ -41,8 +41,17 @@ float float_bit_output(float *a, float mantissa, int *exponent,
 void zapis_stepeni_v_decimal(int a, s21_decimal *dst);
 int s21_from_float_to_decimal(float src, s21_decimal *dst);
 int s21_from_decimal_to_float(s21_decimal *dst, float src);
+// Функция для представления формулы записи в флоата в памяти и перевод формулы
+// для записи его в тип децимал для правильного отображения всех знаков флоата
 void perezapis_decimal(s21_decimal *src, s21_decimal *dst, int *exponent);
+// Функция для представления формулы записи в флоата в памяти и перевод формулы
+// для записи его в тип децимал для правильного отображения всех знаков флоата
+// при экспоненте меньше 23
 void perezapis_decimal_exp_menshe_23(float *a, float mantissa, int *exponent,
                                      s21_decimal *dst, int *counter_step);
+// Умножение децимал чисел
+int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+int s21_is_greater(s21_decimal *src, s21_decimal *dst);
+int s21_is_greater_or_equal(s21_decimal *src, s21_decimal *dst);
 
 #endif
