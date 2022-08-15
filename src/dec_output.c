@@ -35,7 +35,8 @@ int dec_output(s21_decimal *a, char *main_result) {
             }
         }
     }
-    if (checkbit(a->bits[3], MAX_INT_SHIFT) == 1)
+    if ((checkbit(a->bits[3], MAX_INT_SHIFT) == 1) && (a->bits[0] != 0 || a->bits[1] != 0
+       || a->bits[2] != 0))
         result[strlen(result)] = '-';
     dot_insert(result, period);
     // Функция для добавляния точки в число
