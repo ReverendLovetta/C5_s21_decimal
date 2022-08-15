@@ -9,12 +9,12 @@ size_t max_lenght(char *num1, char *num2);
 int char_to_int(char a);
 int summ_two_string(char *num1, char *num2, char *result);
 void revers(char *src, int size);
-size_t period_calc(int a);
+long double period_calc(int a);
 void dot_insert(char *result, size_t period);
 
 int dec_output(s21_decimal *a, char *main_result) {
   size_t len = sizeof(int) * CHAR_BIT;
-  size_t period = 1;
+  long double period = 1;
   char result[BUF], mid_result[BUF];
   memset(result, '\0', BUF);
   memset(mid_result, '\0', BUF);
@@ -101,7 +101,7 @@ void revers(char *src, int size) {
   }
 }
 
-size_t period_calc(int a) {
+long double period_calc(int a) {
   size_t base2_result = 0;
   for (int i = PERIOD_START; i <= PERIOD_END; i++) {
     if (checkbit(a, i) == 1) {
