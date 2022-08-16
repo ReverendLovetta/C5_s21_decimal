@@ -26,7 +26,6 @@ int s21_from_int_to_decimal(int src, s21_decimal *dst);
 int checkbit(const int value, const int position);
 // Функция для вывода decimal в виде строки
 int dec_output(s21_decimal *a, char *result);
-<<<<<<< HEAD
 // Функция для копирования значения из одного deecimal в другой
 int s21_decimal_copy(s21_decimal src, s21_decimal *dest);
 // Функция для умножения decimal на -1
@@ -51,7 +50,17 @@ void perezapis_decimal_exp_menshe_23(float *a, float mantissa, int *exponent,
                                      s21_decimal *dst, int *counter_step);
 // Умножение децимал чисел
 int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
-int s21_is_greater(s21_decimal *src, s21_decimal *dst);
-int s21_is_greater_or_equal(s21_decimal *src, s21_decimal *dst);
+// Больше
+int s21_is_greater(s21_decimal src, s21_decimal dst);
+// Меньше
+int s21_is_less(s21_decimal src, s21_decimal dst);
+// Равно
+int s21_is_equal(s21_decimal src, s21_decimal dst);
+// Больше или равно
+int s21_is_greater_or_equal(s21_decimal src, s21_decimal dst);
+// Меньше или равно
+int s21_is_less_or_equal(s21_decimal src, s21_decimal dst);
+// Не равно
+int s21_is_not_equal(s21_decimal src, s21_decimal dst);
 
 #endif
