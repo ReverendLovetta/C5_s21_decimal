@@ -66,4 +66,6 @@ int s21_is_less_or_equal(s21_decimal src, s21_decimal dst);
 // Не равно
 int s21_is_not_equal(s21_decimal src, s21_decimal dst);
 
+// Функция для перевода из строки в decimal
+s21_decimal char_to_decimal(char *stirng);
 #endif
