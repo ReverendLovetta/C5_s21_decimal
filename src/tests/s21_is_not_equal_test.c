@@ -1,6 +1,6 @@
 #include "../header.h"
 
-START_TEST(greater_1) {
+START_TEST(not_equal_1) {
   s21_decimal d = {0};
   s21_decimal d1 = {0};
   d.bits[0] = 2048;
@@ -13,11 +13,11 @@ START_TEST(greater_1) {
   d1.bits[2] = 2046;
   d1.bits[3] |= SIGN;
   zapis_stepeni_v_decimal(0, &d1);
-  ck_assert_int_eq(s21_is_greater(d, d1), 1);
+  ck_assert_int_eq(s21_is_not_equal(d, d1), 1);
 }
 END_TEST
 
-START_TEST(greater_2) {
+START_TEST(not_equal_2) {
   s21_decimal d = {0};
   s21_decimal d1 = {0};
   d.bits[0] = 2048;
@@ -28,11 +28,11 @@ START_TEST(greater_2) {
   d1.bits[1] = 2048;
   d1.bits[2] = 2046;
   zapis_stepeni_v_decimal(0, &d1);
-  ck_assert_int_eq(s21_is_greater(d, d1), 0);
+  ck_assert_int_eq(s21_is_not_equal(d, d1), 1);
 }
 END_TEST
 
-START_TEST(greater_3) {
+START_TEST(not_equal_3) {
   s21_decimal d = {0};
   s21_decimal d1 = {0};
   d.bits[0] = 0;
@@ -44,11 +44,11 @@ START_TEST(greater_3) {
   d1.bits[2] = 0;
   d1.bits[3] |= SIGN;
   zapis_stepeni_v_decimal(0, &d1);
-  ck_assert_int_eq(s21_is_greater(d, d1), 0);
+  ck_assert_int_eq(s21_is_not_equal(d, d1), 0);
 }
 END_TEST
 
-START_TEST(greater_4) {
+START_TEST(not_equal_4) {
   s21_decimal d = {0};
   s21_decimal d1 = {0};
   d.bits[0] = 2346;
@@ -59,11 +59,11 @@ START_TEST(greater_4) {
   d1.bits[1] = 1512;
   d1.bits[2] = 123;
   zapis_stepeni_v_decimal(0, &d1);
-  ck_assert_int_eq(s21_is_greater(d, d1), 1);
+  ck_assert_int_eq(s21_is_not_equal(d, d1), 1);
 }
 END_TEST
 
-START_TEST(greater_5) {
+START_TEST(not_equal_5) {
   s21_decimal d = {0};
   s21_decimal d1 = {0};
   d.bits[0] = 2346;
@@ -76,11 +76,11 @@ START_TEST(greater_5) {
   d1.bits[2] = 123;
   d1.bits[3] |= SIGN;
   zapis_stepeni_v_decimal(0, &d1);
-  ck_assert_int_eq(s21_is_greater(d, d1), 0);
+  ck_assert_int_eq(s21_is_not_equal(d, d1), 1);
 }
 END_TEST
 
-START_TEST(greater_6) {
+START_TEST(not_equal_6) {
   s21_decimal d = {0};
   s21_decimal d1 = {0};
   d.bits[0] = 2346;
@@ -91,11 +91,11 @@ START_TEST(greater_6) {
   d1.bits[1] = 1512;
   d1.bits[2] = 123;
   zapis_stepeni_v_decimal(12, &d1);
-  ck_assert_int_eq(s21_is_greater(d, d1), 1);
+  ck_assert_int_eq(s21_is_not_equal(d, d1), 1);
 }
 END_TEST
 
-START_TEST(greater_7) {
+START_TEST(not_equal_7) {
   s21_decimal d = {0};
   s21_decimal d1 = {0};
   d.bits[0] = 2346;
@@ -108,11 +108,11 @@ START_TEST(greater_7) {
   d1.bits[2] = 123;
   d1.bits[3] |= SIGN;
   zapis_stepeni_v_decimal(12, &d1);
-  ck_assert_int_eq(s21_is_greater(d, d1), 0);
+  ck_assert_int_eq(s21_is_not_equal(d, d1), 1);
 }
 END_TEST
 
-START_TEST(greater_8) {
+START_TEST(not_equal_8) {
   s21_decimal d = {0};
   s21_decimal d1 = {0};
   d.bits[0] = 2346;
@@ -123,11 +123,11 @@ START_TEST(greater_8) {
   d1.bits[1] = 1512;
   d1.bits[2] = 123;
   zapis_stepeni_v_decimal(10, &d1);
-  ck_assert_int_eq(s21_is_greater(d, d1), 0);
+  ck_assert_int_eq(s21_is_not_equal(d, d1), 1);
 }
 END_TEST
 
-START_TEST(greater_9) {
+START_TEST(not_equal_9) {
   s21_decimal d = {0};
   s21_decimal d1 = {0};
   d.bits[0] = 3782;
@@ -138,11 +138,11 @@ START_TEST(greater_9) {
   d1.bits[1] = 1512;
   d1.bits[2] = 123;
   zapis_stepeni_v_decimal(10, &d1);
-  ck_assert_int_eq(s21_is_greater(d, d1), 0);
+  ck_assert_int_eq(s21_is_not_equal(d, d1), 1);
 }
 END_TEST
 
-START_TEST(greater_10) {
+START_TEST(not_equal_10) {
   s21_decimal d = {0};
   s21_decimal d1 = {0};
   d.bits[0] = 3782;
@@ -153,11 +153,11 @@ START_TEST(greater_10) {
   d1.bits[1] = 1512;
   d1.bits[2] = 123;
   zapis_stepeni_v_decimal(12, &d1);
-  ck_assert_int_eq(s21_is_greater(d, d1), 0);
+  ck_assert_int_eq(s21_is_not_equal(d, d1), 0);
 }
 END_TEST
 
-START_TEST(greater_11) {
+START_TEST(not_equal_11) {
   s21_decimal d = {0};
   s21_decimal d1 = {0};
   d.bits[0] = 3782;
@@ -170,11 +170,11 @@ START_TEST(greater_11) {
   d1.bits[2] = 123;
   d1.bits[3] |= SIGN;
   zapis_stepeni_v_decimal(12, &d1);
-  ck_assert_int_eq(s21_is_greater(d, d1), 0);
+  ck_assert_int_eq(s21_is_not_equal(d, d1), 0);
 }
 END_TEST
 
-START_TEST(greater_12) {
+START_TEST(not_equal_12) {
   s21_decimal d = {0};
   s21_decimal d1 = {0};
   d.bits[0] = 0;
@@ -185,30 +185,30 @@ START_TEST(greater_12) {
   d1.bits[1] = 0;
   d1.bits[2] = 0;
   zapis_stepeni_v_decimal(0, &d1);
-  ck_assert_int_eq(s21_is_greater(d, d1), 0);
+  ck_assert_int_eq(s21_is_not_equal(d, d1), 0);
 }
 END_TEST
 
 Suite *sprintf_test(void) {
   Suite *s;
-  TCase *tc_is_greater;
+  TCase *tc_is_not_equal;
 
-  s = suite_create("s21_is_greater");
+  s = suite_create("s21_is_not_equal");
 
-  tc_is_greater = tcase_create("s21_is_greater");
-  tcase_add_test(tc_is_greater, greater_1);
-  tcase_add_test(tc_is_greater, greater_2);
-  tcase_add_test(tc_is_greater, greater_3);
-  tcase_add_test(tc_is_greater, greater_4);
-  tcase_add_test(tc_is_greater, greater_5);
-  tcase_add_test(tc_is_greater, greater_6);
-  tcase_add_test(tc_is_greater, greater_7);
-  tcase_add_test(tc_is_greater, greater_8);
-  tcase_add_test(tc_is_greater, greater_9);
-  tcase_add_test(tc_is_greater, greater_10);
-  tcase_add_test(tc_is_greater, greater_11);
-  tcase_add_test(tc_is_greater, greater_12);
-  suite_add_tcase(s, tc_is_greater);
+  tc_is_not_equal = tcase_create("s21_is_not_equal");
+  tcase_add_test(tc_is_not_equal, not_equal_1);
+  tcase_add_test(tc_is_not_equal, not_equal_2);
+  tcase_add_test(tc_is_not_equal, not_equal_3);
+  tcase_add_test(tc_is_not_equal, not_equal_4);
+  tcase_add_test(tc_is_not_equal, not_equal_5);
+  tcase_add_test(tc_is_not_equal, not_equal_6);
+  tcase_add_test(tc_is_not_equal, not_equal_7);
+  tcase_add_test(tc_is_not_equal, not_equal_8);
+  tcase_add_test(tc_is_not_equal, not_equal_9);
+  tcase_add_test(tc_is_not_equal, not_equal_10);
+  tcase_add_test(tc_is_not_equal, not_equal_11);
+  tcase_add_test(tc_is_not_equal, not_equal_12);
+  suite_add_tcase(s, tc_is_not_equal);
 
   return s;
 }

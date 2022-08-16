@@ -17,10 +17,10 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
   return status;
 }
 
-int main() {
-  s21_decimal d = {0};
-  float b = -3129375678932561782378.14;
-  s21_from_float_to_decimal(b, &d);
-  printf("nast=%7f=float\n", b);
-  return 0;
-}
+// int main() {
+//   s21_decimal d = {0};
+//   float b = -3129375678932561782378.14;
+//   s21_from_float_to_decimal(b, &d);
+//   printf("nast=%7f=float\n", b);
+//   return 0;
+// }
