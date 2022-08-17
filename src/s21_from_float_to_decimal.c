@@ -2,6 +2,7 @@
 
 int s21_from_float_to_decimal(float src, s21_decimal *dst) {
   int status = 0;
+  // *dst = {0};
   if (fabs(src) >= 1e-28 && src != INFINITY && fabs(src) <= MAX_DECIMAL) {
     int counter_step = 0;
     int exponent = 0;
