@@ -14,7 +14,7 @@
 #define MIN_DECIMAL -79228162514264337593543950335.0
 
 typedef struct {
-  int bits[4];
+  unsigned int bits[4];
 } s21_decimal;
 
 // Функция для вывода числа decimal в битовом отображении
@@ -68,4 +68,12 @@ int s21_is_not_equal(s21_decimal src, s21_decimal dst);
 
 // Функция для перевода из строки в decimal
 s21_decimal char_to_decimal(char *stirng);
+
+/*
+ * Операции с битами:
+ */
+
+// Выставляет бит в указанную позицию
+void setbit(unsigned int *value, const int position);
+
 #endif
