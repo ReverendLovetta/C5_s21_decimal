@@ -13,9 +13,6 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     } else {
         printf("Функции вычитания большего числа из меньшего\n");
     }
-    for (int i = 0; i < 4; i++) {
-        result->bits[i] = value_1.bits[i];
-    }
     return exit_code;
 }
 
@@ -28,16 +25,19 @@ int add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
         for (int j = 0; j <= MAX_INT_SHIFT; j++) {
             temp = checkbit(value_1.bits[i], j) + checkbit(value_2.bits[i], j);
             if (temp == 2) {
-                printf("TEMP %d == 2\n", j);
                 if (carry == 1)
                     result->bits[i] ^= (1 << j);
                 else {
                     carry = 1;
                 }
             } else if (temp == 1) {
-                printf("TEMP %d == 1\n", j);
                 if (carry == 0)
                     result->bits[i] ^= (1 << j);
+            } else if (temp == 0) {
+                if (carry == 1) {
+                    result->bits[i] ^= (1 << j);
+                    carry = 0;
+                }
             }
         }
     }
