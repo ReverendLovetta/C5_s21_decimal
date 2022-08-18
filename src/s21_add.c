@@ -9,7 +9,7 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
         printf("Функция для сложения двух децимал\n");
     } else if (checkbit(value_1.bits[3], MAX_INT_SHIFT) == 0 &&
              checkbit(value_2.bits[3], MAX_INT_SHIFT) == 0) {
-        add(value_1, value_2, result);
+        exit_code = add(value_1, value_2, result);
     } else {
         printf("Функции вычитания большего числа из меньшего\n");
     }
@@ -19,9 +19,9 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 // Если число float, то проверить последний знак. Если 0, то порядок надо умножить на 10
 
 int add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-    int carry = 0;
-    int temp = 0;
-    for (int i = 0; i < 1; i++) {
+    int carry = 0, temp = 0;
+    int exit_code = 0;
+    for (int i = 0; i < 3; i++) {
         for (int j = 0; j <= MAX_INT_SHIFT; j++) {
             temp = checkbit(value_1.bits[i], j) + checkbit(value_2.bits[i], j);
             if (temp == 2) {
@@ -41,5 +41,9 @@ int add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
             }
         }
     }
-    return (carry == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
+    if (carry == 1 && checkbit(result->bits[3], MAX_INT_SHIFT)) 
+        exit_code = 2;
+    else if ((carry == 1) && (checkbit(result->bits[3], MAX_INT_SHIFT) == 0))
+        exit_code = 1;
+    return exit_code;
 }
