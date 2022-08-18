@@ -41,6 +41,7 @@ float float_bit_output(float *a, float mantissa, int *exponent,
 // Функция для записи степени в децимал
 void zapis_stepeni_v_decimal(int a, s21_decimal *dst);
 int s21_from_float_to_decimal(float src, s21_decimal *dst);
+int s21_from_decimal_to_int(s21_decimal src, int *dst);
 int s21_from_decimal_to_float(s21_decimal src, float *dst);
 // Функция для представления формулы записи в флоата в памяти и перевод формулы
 // для записи его в тип децимал для правильного отображения всех знаков флоата
