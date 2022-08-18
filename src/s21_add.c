@@ -22,33 +22,22 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 // Если число float, то проверить последний знак. Если 0, то порядок надо умножить на 10
 
 int add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-    printf("Come in\n");
     int carry = 0;
     int temp = 0;
-    int counter = 0;
     for (int i = 0; i < 1; i++) {
         for (int j = 0; j <= MAX_INT_SHIFT; j++) {
             temp = checkbit(value_1.bits[i], j) + checkbit(value_2.bits[i], j);
-            printf("ITERATION %d ", counter);
-            counter++;
-            if (temp == 0) {
-            printf("temp = 0: \n");
-                if (carry == 1) {
-                    result->bits[i] |= (int)pow(2, j);
-                    carry = 0;
+            if (temp == 2) {
+                printf("TEMP %d == 2\n", j);
+                if (carry == 1)
+                    result->bits[i] ^= (1 << j);
+                else {
+                    carry = 1;
                 }
             } else if (temp == 1) {
-            printf("temp = 1: \n");
-                if (carry == 1)
-                    continue;
-                else 
-                    result->bits[i] |= (int)pow(2, j);
-            } else if (temp > 1) {
-            printf("temp > 1: \n");
-                if (carry == 1)
-                    result->bits[i] |= (int)pow(2, j);
-                else
-                    carry = 1;
+                printf("TEMP %d == 1\n", j);
+                if (carry == 0)
+                    result->bits[i] ^= (1 << j);
             }
         }
     }

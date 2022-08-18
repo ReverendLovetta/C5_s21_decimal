@@ -9,7 +9,7 @@ START_TEST(add_1) {
     s21_decimal number1 = {0};
     s21_decimal number2 = {0};
     s21_from_int_to_decimal(a, &number1);
-    s21_from_int_to_decimal(a, &number2);
+    s21_from_int_to_decimal(b, &number2);
     s21_decimal dec_result = {0};
     s21_add(number1, number2, &dec_result);
     dec_output(&dec_result, s21_result);
