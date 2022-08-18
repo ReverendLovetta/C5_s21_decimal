@@ -6,7 +6,8 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     int exit_code = 0;
     if (checkbit(value_1.bits[3], MAX_INT_SHIFT) == 1 &&
         checkbit(value_2.bits[3], MAX_INT_SHIFT) == 1) {
-        printf("Функция для сложения двух децимал\n");
+        exit_code = add(value_1, value_2, result);
+        result->bits[3] |= SIGN;
     } else if (checkbit(value_1.bits[3], MAX_INT_SHIFT) == 0 &&
              checkbit(value_2.bits[3], MAX_INT_SHIFT) == 0) {
         exit_code = add(value_1, value_2, result);
@@ -41,9 +42,11 @@ int add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
             }
         }
     }
-    if (carry == 1 && checkbit(result->bits[3], MAX_INT_SHIFT)) 
+    if ((carry == 1) && (checkbit(value_1.bits[3], MAX_INT_SHIFT) +
+                         checkbit(value_2.bits[3], MAX_INT_SHIFT)) == 2) 
         exit_code = 2;
-    else if ((carry == 1) && (checkbit(result->bits[3], MAX_INT_SHIFT) == 0))
+    else if ((carry == 1) && (checkbit(value_1.bits[3], MAX_INT_SHIFT) +
+                         checkbit(value_2.bits[3], MAX_INT_SHIFT)) == 0) 
         exit_code = 1;
     return exit_code;
 }
