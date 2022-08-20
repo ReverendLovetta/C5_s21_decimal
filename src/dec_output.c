@@ -10,7 +10,7 @@ int char_to_int(char a);
 int summ_two_string(char *num1, char *num2, char *result);
 void revers(char *src, int size);
 long double period_calc(int a);
-void dot_insert(char *result, long double period);
+void dot_insert(char *result, size_t period_length);
 
 int dec_output(s21_decimal *a, char *main_result) {
     size_t len = sizeof(int) * CHAR_BIT;
@@ -33,11 +33,19 @@ int dec_output(s21_decimal *a, char *main_result) {
             }
         }
     }
+    char period_string[BUF];
+    memset(period_string, '\0', BUF);
+    sprintf(period_string, "%0.LF", period);
+    size_t result_length = strlen(result), period_length = strlen(period_string);
+    while (result_length < period_length) {
+        result[result_length] = '0';
+        result_length++;
+    }
     if ((checkbit(a->bits[3], MAX_INT_SHIFT) == 1) &&
     (a->bits[0] != 0 || a->bits[1] != 0 || a->bits[2] != 0))
         result[strlen(result)] = '-';
     // Функция для добавляния точки в число
-    dot_insert(result, period);
+    dot_insert(result, period_length);
     revers(result, strlen(result));
     strcpy(main_result, result);
     return EXIT_SUCCESS;
@@ -113,40 +121,24 @@ long double period_calc(int a) {
     return pow(10, base2_result);
 }
 
-void dot_insert(char *result, long double period) {
-    printf("period = %LF\n", period);
+void dot_insert(char *result, size_t period_length) {
     char temp[BUF];
     memset(temp, '\0', BUF);
     int j = 0, i = 0;
     size_t k = strlen(result);
-    if (period == 1) {
+    if (period_length == 1) {
         return;
     }
-    do {
-        if (result[j] == '\0') {
-            printf("TRUE\n");
+    while (period_length > 1) {
+        if (result[j] == '\0')
             temp[i] = '0';
-        }
         else
             temp[i] = result[j];
         i++;
         j++;
         k--;
-        period /= 10;
-        printf("period after divide = %LF\n", period);
-    } while (period > 10);
-        
-    //while (period > 1) {
-    //    if (result[j] == '\0')
-    //        temp[i] = '0';
-    //    else
-    //        temp[i] = result[j];
-    //    i++;
-    //    j++;
-    //    k--;
-    //    period /= 10;
-    //    printf("period after divide = %LF\n", period);
-    //}
+        period_length -= 1;
+    }
     temp[i] = '.';
     i++;
     while (k > 0) {
