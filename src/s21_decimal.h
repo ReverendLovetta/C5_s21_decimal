@@ -76,4 +76,7 @@ s21_decimal char_to_decimal(char *stirng);
 // Выставляет бит в указанную позицию
 void setbit(unsigned int *value, const int position);
 
+// Умножает число, цифры которого в виде строки на 2
+int mult_by_2(char *a, char *result);
+
 #endif
