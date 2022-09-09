@@ -1,14 +1,8 @@
-/* Функция char_to_decimal(char *string).
- * Конвертирует строку, в которую записано число в число с типом decimal.
- * Важно разделитель дробной части должен быть записан в виде "."
- * Если количество разрядов после "." будет больше 28, переполнения не
- * произойдет, просто обрежется лишняя часть без округления.
- * Если подать число, которое при переводе в двоичную систему счисления не
- * поместится в структуру s21_decimal, то произойдет переполнение.
- */
+#include "../s21_decimal.h"
 
-#include "s21_decimal.h"
+#define MAX_VALUE 96  // Максимальное кол-во битов в 3-х int
 
+void setbit(unsigned int *value, const int position);
 char *find_point(const char *string);  // Поиск начала дробной части
 void delete_point(
     char *string, unsigned int *value,
@@ -140,5 +134,11 @@ void binary_conversion(char *str, s21_decimal *value) {
       cnt2++;
       bit = 0;
     }
+  }
+}
+
+void setbit(unsigned int *value, const int position) {
+  if (value != NULL) {
+    *value = *value | (1 << position);
   }
 }
