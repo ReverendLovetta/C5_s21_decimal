@@ -9,6 +9,10 @@
 
 #include "s21_decimal.h"
 
+char *remove_sign(
+    char *string,
+    unsigned int *value);  // Проверяет наличие знака у числа в строке,
+                           // записывает в байт структуру, удаляет из строки
 char *find_point(const char *string);  // Поиск начала дробной части
 void delete_point(
     char *string, unsigned int *value,
@@ -18,22 +22,6 @@ void binary_conversion(
     char *string,
     s21_decimal *value);  // Перевод числа из десятичной системы счисления в
                           // двоичную и запись разрядов в структуре decimal
-
-char *remove_sign(
-    char *string,
-    unsigned int *value);  // Проверяет наличие знака у числа в строке,
-                           // записывает в байт структуру, удаляет из строки
-
-int main() {
-  char str[] = "-6729579619792362.21769263";
-  printf("Значение str: %s\n", str);
-  s21_decimal value = {0};
-  value = char_to_decimal(str);
-  for (size_t i = 0; i < 4; i++) {
-    printf("  %u  ", value.bits[i]);
-  }
-  return 0;
-}
 
 s21_decimal char_to_decimal(const char *str) {
   if (str == NULL) {
