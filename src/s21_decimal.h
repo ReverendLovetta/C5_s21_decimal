@@ -13,8 +13,10 @@
 #define MAX_DECIMAL 79228162514264337593543950335.0
 #define MIN_DECIMAL -79228162514264337593543950335.0
 
+typedef unsigned int u_int32_t;
+
 typedef struct {
-  int bits[4];
+  u_int32_t bits[4];
 } s21_decimal;
 
 // Функция для вывода числа decimal в битовом отображении
@@ -66,4 +68,17 @@ int s21_is_less_or_equal(s21_decimal src, s21_decimal dst);
 // Не равно
 int s21_is_not_equal(s21_decimal src, s21_decimal dst);
 
-#endif
+// Функция для перевода из строки в decimal
+s21_decimal char_to_decimal(const char *stirng);
+
+/*
+ * Операции с битами:
+ */
+
+// Выставляет бит в указанную позицию
+void setbit(unsigned int *value, const int position);
+
+// Умножает число, цифры которого в виде строки на 2
+int mult_by_2(char *a, char *result);
+
+#endif  // SRC_S21_DECIMAL_H_
