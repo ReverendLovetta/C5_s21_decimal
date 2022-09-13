@@ -1,3 +1,5 @@
+// Сравнивает децимал числа, если src меньше числа dst возвращает 1 во
+// всех других случаях 0
 #include "s21_decimal.h"
 
 int s21_is_less(s21_decimal src, s21_decimal dst) {

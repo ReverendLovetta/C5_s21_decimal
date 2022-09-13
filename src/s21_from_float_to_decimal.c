@@ -1,3 +1,4 @@
+//Конвертация числа флоат в тип децимал
 #include "./s21_decimal.h"
 
 int s21_from_float_to_decimal(float src, s21_decimal *dst) {

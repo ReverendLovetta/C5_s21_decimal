@@ -32,17 +32,12 @@ s21_decimal char_to_decimal(const char *str) {
   char string[len + 1];
   memset(string, '\0', len + 1);
   strncpy(string, str, len);
-  printf("Только что скопировали: %s\n", string);
   char *string_ptr = string;
   s21_decimal result = {0};
   char *p_point = NULL;
   string_ptr = remove_sign(string_ptr, &result.bits[3]);
-  printf("После удаления знака: %s\n", string_ptr);
   if ((p_point = find_point(string_ptr)) != NULL) {
     delete_point(string_ptr, &result.bits[3], p_point);
-    printf("После удаления точки: %s\n", string_ptr);
-  } else {
-    setbit(&result.bits[3], 16);
   }
   binary_conversion(string_ptr, &result);
   return result;

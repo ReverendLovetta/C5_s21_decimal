@@ -1,3 +1,4 @@
+// Сравнивает децимал числа на равенства при равенсте 1 при неравенстве 0
 #include "s21_decimal.h"
 
 int s21_is_equal(s21_decimal src, s21_decimal dst) {
