@@ -96,7 +96,7 @@ int mult_by_2(char *a, char *result);
 
 void setbit(unsigned int *value, const int position);
 
-/* 
+/*
    Операции для обработки чисел в виде строки
 */
 
