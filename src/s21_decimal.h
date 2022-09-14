@@ -121,4 +121,7 @@ int digits_aft_dot(char *dec);
 // Удаление лишних нулей в конце дробной части
 char *zero_cutter(char *result);
 
+// Банковское округление числа
+void bank_round(char *string_of_number);
+
 #endif  // SRC_S21_DECIMAL_H_
