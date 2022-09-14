@@ -3,7 +3,7 @@
 
 int s21_from_decimal_to_float(s21_decimal src, float *dst) {
   char d[1024];
-  dec_output(&src, d);
+  dec_to_string(&src, d);
   *dst = atof(d);
   return 0;
 }

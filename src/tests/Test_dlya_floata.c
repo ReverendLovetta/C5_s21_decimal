@@ -9,7 +9,7 @@ START_TEST(float_chislo_0) {
   d.bits[2] = 2046;
   d.bits[3] |= SIGN;
   zapis_stepeni_v_decimal(12, &d);
-  dec_output(&d, s21_result);
+  dec_to_string(&d, s21_result);
   char result[] = "-37742038383.605835630592";
   ck_assert_str_eq(result, s21_result);
 }
@@ -24,7 +24,7 @@ START_TEST(float_chislo_1) {
   d.bits[2] = 0;
   d.bits[3] |= SIGN;
   zapis_stepeni_v_decimal(5, &d);
-  dec_output(&d, s21_result);
+  dec_to_string(&d, s21_result);
   char result[] = "-0.02048";
   ck_assert_str_eq(result, s21_result);
 }
@@ -39,7 +39,7 @@ START_TEST(float_chislo_2) {
   d.bits[2] = 1073741824;
   d.bits[3] |= SIGN;
   zapis_stepeni_v_decimal(27, &d);
-  dec_output(&d, s21_result);
+  dec_to_string(&d, s21_result);
   char result[] = "-19.807040628566084398385987584";
   ck_assert_str_eq(result, s21_result);
 }

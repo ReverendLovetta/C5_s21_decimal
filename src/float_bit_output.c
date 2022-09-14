@@ -43,7 +43,7 @@ float float_bit_output(float *a, float mantissa, int *exponent,
   printf("\n");
   bit_output(dst);
   char d1[1024];
-  dec_output(dst, d1);
+  dec_to_string(dst, d1);
   printf("stroka=%s\n", d1);
   printf("exponent=%d\n", *exponent);
   printf("masntissa=%.28f\n", mantissa);

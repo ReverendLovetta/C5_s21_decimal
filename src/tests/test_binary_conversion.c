@@ -15,7 +15,7 @@ int main() {
   puts("Все число в битах\n");
   printf("%u  :  %u  :  %u  :  %u", value.bits[3], value.bits[2], value.bits[1],
          value.bits[0]);
-  // dec_output(&value, str2);
+  // dec_to_string(&value, str2);
   // if (strcmp(str, str2) == 0) {
   //   printf("Sucsess\n");
   // } else {

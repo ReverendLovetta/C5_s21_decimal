@@ -12,7 +12,7 @@ START_TEST(truncate_1) {
   d.bits[3] |= SIGN;
   zapis_stepeni_v_decimal(2, &d);
   s21_truncate(d, &result);
-  dec_output(&result, result_func);
+  dec_to_string(&result, result_func);
   ck_assert_str_eq(result_true, result_func);
 }
 END_TEST
@@ -28,7 +28,7 @@ START_TEST(truncate_2) {
   d.bits[2] = 2045;
   zapis_stepeni_v_decimal(2, &d);
   s21_truncate(d, &result);
-  dec_output(&result, result_func);
+  dec_to_string(&result, result_func);
   ck_assert_str_eq(result_true, result_func);
 }
 END_TEST
@@ -44,7 +44,7 @@ START_TEST(truncate_3) {
   d.bits[2] = 2045;
   zapis_stepeni_v_decimal(0, &d);
   s21_truncate(d, &result);
-  dec_output(&result, result_func);
+  dec_to_string(&result, result_func);
   ck_assert_str_eq(result_true, result_func);
 }
 END_TEST
@@ -61,7 +61,7 @@ START_TEST(truncate_4) {
   d.bits[3] |= SIGN;
   zapis_stepeni_v_decimal(0, &d);
   s21_truncate(d, &result);
-  dec_output(&result, result_func);
+  dec_to_string(&result, result_func);
   ck_assert_str_eq(result_true, result_func);
 }
 END_TEST
@@ -77,7 +77,7 @@ START_TEST(truncate_5) {
   d.bits[2] = 0;
   zapis_stepeni_v_decimal(1, &d);
   s21_truncate(d, &result);
-  dec_output(&result, result_func);
+  dec_to_string(&result, result_func);
   ck_assert_str_eq(result_true, result_func);
 }
 END_TEST

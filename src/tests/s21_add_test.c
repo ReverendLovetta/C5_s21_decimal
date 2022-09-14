@@ -1,9 +1,8 @@
 #include "../header.h"
 
 START_TEST(add_1) {
-    char s21_result[BUF], result[BUF];
-    memset(result, '\0', BUF);
-    memset(s21_result, '\0', BUF);
+    char s21_result[BUF] = {'\0'};
+    char result[BUF] = {'\0'};
     int a = 421, b = 79, exit_code = 0; 
     s21_decimal number1 = {0};
     s21_decimal number2 = {0};
@@ -11,7 +10,7 @@ START_TEST(add_1) {
     s21_from_int_to_decimal(b, &number2);
     s21_decimal dec_result = {0};
     exit_code = s21_add(number1, number2, &dec_result);
-    dec_output(&dec_result, s21_result);
+    dec_to_string(&dec_result, s21_result);
     sprintf(result, "%d", a + b);
     ck_assert_str_eq(result, s21_result);
     ck_assert_int_eq(exit_code, 0);
@@ -51,6 +50,7 @@ START_TEST(add_3) {
     ck_assert_int_eq(exit_code, 2);
 }
 END_TEST
+
 
 Suite * sprintf_test(void) {
     Suite *s;

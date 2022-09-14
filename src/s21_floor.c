@@ -41,7 +41,7 @@ int s21_floor(s21_decimal value, s21_decimal *result) {
   result->bits[3] = 0;
   int status = 0;
   char d[1024];
-  dec_output(&value, d);
+  dec_to_string(&value, d);
   if (d != NULL) {
     char *ukaz = d;
     while (1) {

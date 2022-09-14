@@ -8,7 +8,7 @@ START_TEST(int_to_decimal_1) {
     int a = INT_MAX; 
     s21_decimal number = {0};
     s21_from_int_to_decimal(a, &number);
-    dec_output(&number, s21_result);
+    dec_to_string(&number, s21_result);
     sprintf(result, "%d", a);
     ck_assert_str_eq(result, s21_result);
 }
@@ -22,7 +22,7 @@ START_TEST(int_to_decimal_2) {
     int a = INT_MIN; 
     s21_decimal number = {0};
     s21_from_int_to_decimal(a, &number);
-    dec_output(&number, s21_result);
+    dec_to_string(&number, s21_result);
     sprintf(result, "%d", a);
     ck_assert_str_eq(result, s21_result);
 }
@@ -36,7 +36,7 @@ START_TEST(int_to_decimal_3) {
     int a = 1059308; 
     s21_decimal number = {0};
     s21_from_int_to_decimal(a, &number);
-    dec_output(&number, s21_result);
+    dec_to_string(&number, s21_result);
     sprintf(result, "%d", a);
     ck_assert_str_eq(result, s21_result);
 }
@@ -50,7 +50,7 @@ START_TEST(int_to_decimal_4) {
     int a = -10530508; 
     s21_decimal number = {0};
     s21_from_int_to_decimal(a, &number);
-    dec_output(&number, s21_result);
+    dec_to_string(&number, s21_result);
     sprintf(result, "%d", a);
     ck_assert_str_eq(result, s21_result);
 }
@@ -64,7 +64,7 @@ START_TEST(int_to_decimal_5) {
     int a = 0; 
     s21_decimal number = {0};
     s21_from_int_to_decimal(a, &number);
-    dec_output(&number, s21_result);
+    dec_to_string(&number, s21_result);
     sprintf(result, "%d", a);
     ck_assert_str_eq(result, s21_result);
 }
@@ -78,7 +78,7 @@ START_TEST(int_to_decimal_6) {
     int a = -0; 
     s21_decimal number = {0};
     s21_from_int_to_decimal(a, &number);
-    dec_output(&number, s21_result);
+    dec_to_string(&number, s21_result);
     sprintf(result, "%d", a);
     ck_assert_str_eq(result, s21_result);
 }

@@ -13,6 +13,9 @@
 #define MAX_DECIMAL 79228162514264337593543950335.0
 #define MIN_DECIMAL -79228162514264337593543950335.0
 
+#define MAX_DECIMAL_STR "79228162514264337593543950335.0"
+#define MIN_DECIMAL_STR "-79228162514264337593543950335.0"
+
 typedef unsigned int u_int32_t;
 
 typedef struct {
@@ -26,8 +29,8 @@ int s21_from_int_to_decimal(int src, s21_decimal *dst);
 // Функция, которая проверяет выставленный бит в конкретной позиции.
 // Возвращает 1, если искомый бит выствлен
 int checkbit(const int value, const int position);
-// Функция для вывода decimal в виде строки
-int dec_output(s21_decimal *a, char *result);
+// Функция для конвертации decimal в строку
+int dec_to_string(s21_decimal *a, char *result);
 // Функция для копирования значения из одного deecimal в другой
 int s21_decimal_copy(s21_decimal src, s21_decimal *dest);
 // Функция для умножения decimal на -1
@@ -92,5 +95,30 @@ int s21_floor(s21_decimal value, s21_decimal *result);
 int mult_by_2(char *a, char *result);
 
 void setbit(unsigned int *value, const int position);
+
+/* 
+   Операции для обработки чисел в виде строки
+*/
+
+// переворот строки
+void revers(char *src, int size);
+
+// Сложение двух строк
+int summ_two_string(char *num1, char *num2, char *result);
+
+// Сравнение двух строк и возврат длины большей строки
+size_t max_lenght(char *num1, char *num2);
+
+// Перевод ascii символа в целочисленный int
+int char_to_int(char a);
+
+// Вставки точки-разделителя в строку
+void dot_insert(char *result, size_t period_length);
+
+// Подсчёт количества символов за точкой
+int digits_aft_dot(char *dec);
+
+// Удаление лишних нулей в конце дробной части
+char *zero_cutter(char *result);
 
 #endif  // SRC_S21_DECIMAL_H_

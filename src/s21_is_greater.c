@@ -6,9 +6,9 @@ int s21_is_greater(s21_decimal src, s21_decimal dst) {
   int status = 0;
   int flag = 0;
   char d[1024];
-  dec_output(&src, d);
+  dec_to_string(&src, d);
   char d1[1024];
-  dec_output(&dst, d1);
+  dec_to_string(&dst, d1);
   char *ukaz_src = d;
   char *ukaz_dst = d1;
   int chet_do_t_src = 0;

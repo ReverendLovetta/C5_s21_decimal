@@ -4,14 +4,9 @@
 #define PERIOD_END 23
 
 int exp_string(char *result, int degree);
-size_t max_lenght(char *num1, char *num2);
-int char_to_int(char a);
-int summ_two_string(char *num1, char *num2, char *result);
-void revers(char *src, int size);
 long double period_calc(int a);
-void dot_insert(char *result, size_t period_length);
 
-int dec_output(s21_decimal *a, char *main_result) {
+int dec_to_string(s21_decimal *a, char *main_result) {
   size_t len = sizeof(int) * CHAR_BIT;
   long double period = 1;
   char result[BUF], mid_result[BUF];
@@ -78,36 +73,6 @@ int exp_string(char *result, int degree) {
   return EXIT_SUCCESS;
 }
 
-size_t max_lenght(char *num1, char *num2) {
-  return (strlen(num1) >= strlen(num2)) ? strlen(num1) : strlen(num2);
-}
-
-int char_to_int(char a) { return (a <= '9' && a >= '0') ? a - '0' : 0; }
-
-int summ_two_string(char *num1, char *num2, char *result) {
-  int res = 0;
-  size_t i = 0;
-  int carry = 0;
-  for (; i < max_lenght(num1, num2); i++) {
-    if ((res = char_to_int(num1[i]) + char_to_int(num2[i]) + carry) > 9) {
-      carry = (res - res % 10) / 10;
-    }
-    result[i] = res % 10 + 48;
-    if (res < 10) carry = 0;
-  }
-  if (carry > 0) result[i] = carry + 48;
-  return EXIT_SUCCESS;
-}
-
-void revers(char *src, int size) {
-  int count = size;
-  for (int i = 0; i < size / 2; i++) {
-    char buff = src[i];
-    src[i] = src[--count];
-    src[count] = buff;
-  }
-}
-
 long double period_calc(int a) {
   long double base2_result = 0;
   for (int i = PERIOD_START; i <= PERIOD_END; i++) {
@@ -116,34 +81,4 @@ long double period_calc(int a) {
     }
   }
   return pow(10, base2_result);
-}
-
-void dot_insert(char *result, size_t period_length) {
-  char temp[BUF];
-  memset(temp, '\0', BUF);
-  int j = 0, i = 0;
-  size_t k = strlen(result);
-  if (period_length == 1) {
-    return;
-  }
-  while (period_length > 1) {
-    if (result[j] == '\0')
-      temp[i] = '0';
-    else
-      temp[i] = result[j];
-    i++;
-    j++;
-    k--;
-    period_length -= 1;
-  }
-  temp[i] = '.';
-  i++;
-  while (k > 0) {
-    temp[i] = result[j];
-    i++;
-    j++;
-    k--;
-  }
-  memset(result, '\0', BUF);
-  strcpy(result, temp);
 }
