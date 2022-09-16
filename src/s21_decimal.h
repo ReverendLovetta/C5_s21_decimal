@@ -131,8 +131,4 @@ void bank_round(char *string_of_number);
  * Вспомогательные функции для s21_sub()
  ****************************************************/
 
-/* Перевод числа из десятичной системы счисления в двоичную и запись разрядов в
- структуре decimal*/
-void binary_conversion(char *string, s21_decimal *value);
-
 #endif  // SRC_S21_DECIMAL_H_
