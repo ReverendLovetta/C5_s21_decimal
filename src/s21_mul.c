@@ -24,6 +24,9 @@ char *mult_two_string(char *temp_dec1, char *temp_dec2, char *res);
 // Умножение строки на число
 int mult_by_number(char *a, char *result, int number, int i);
 
+// Проверка сроки с максимальным значением decimal
+int size_check(char *dec);
+
 int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     int exit_code = 0;
     // Если оба числа отрицательные
@@ -83,12 +86,13 @@ int mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     revers(res, (int)strlen(res));
 
     // Сравниваем строку с максимальными значением
-    if (strlen(res) > 29 || strcmp(res, MAX_DECIMAL_STR) > 0) {
+    if (strlen(res) > 29 || size_check(res)) {
         return LARGE;
     }
-    else
+    else {
         // Записываем результат в decimal
         *result = char_to_decimal(res);
+    }
 
     return SUCCESS;
 }
@@ -154,18 +158,20 @@ int mult_by_number(char *a, char *result, int number, int j) {
     return EXIT_SUCCESS;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+int size_check(char *dec) {
+    char *max_decimal = MAX_DECIMAL_STR;
+    int result = 0;
+    if (strlen(dec) == 29) {
+        for (int i = 0; i < (int)strlen(max_decimal); i++) {
+            if (dec[i] <= max_decimal[i]) {
+                continue;
+            }
+            else {
+                result = 1;
+                break;
+            }
+        }
+    }
+    return result;
+}
 

@@ -96,6 +96,42 @@ START_TEST(mul_6) {
 }
 END_TEST
 
+START_TEST(mul_7) {
+    char s21_result[BUF] = {'\0'};
+    char *a = "7922816251426";
+    char *b = "1152";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_mul(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    printf("RESULT: %s\n", s21_result);
+    char result[BUF] = "9127084321642752";
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+START_TEST(mul_8) {
+    char s21_result[BUF] = {'\0'};
+    char result[BUF] = {'\0'};
+    int a = 792286, b = 152, exit_code = 0; 
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    s21_from_int_to_decimal(a, &number1);
+    s21_from_int_to_decimal(b, &number2);
+    s21_decimal dec_result = {0};
+    exit_code = s21_mul(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    sprintf(result, "%d", a * b);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
 
 Suite * sprintf_test(void) {
     Suite *s;
@@ -110,6 +146,8 @@ Suite * sprintf_test(void) {
     tcase_add_test(tc_mul, mul_4);
     tcase_add_test(tc_mul, mul_5);
     tcase_add_test(tc_mul, mul_6);
+    tcase_add_test(tc_mul, mul_7);
+    tcase_add_test(tc_mul, mul_8);
     suite_add_tcase(s, tc_mul);
 
     return s;
