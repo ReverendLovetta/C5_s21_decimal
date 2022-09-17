@@ -37,8 +37,6 @@ int s21_decimal_copy(s21_decimal src, s21_decimal *dest);
 int s21_negate(s21_decimal value, s21_decimal *result);
 // Функция сложения
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
-// Функция умножения
-int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 
 // Все функции необходимые для обработки флоат
 
