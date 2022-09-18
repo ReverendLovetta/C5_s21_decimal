@@ -22,6 +22,8 @@ int shift_diff(int shift1, int shift2);
 
 // Определение максимальной дробной части 
 size_t max_shift(int shift1, int shift2);
+// Common s21_mul
+int size_check(char *dec);
 
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     int exit_code = 0;
@@ -67,16 +69,21 @@ int add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     // Складываем две строки
     summ_two_string(temp_dec1, temp_dec2, res);
     // Добавляем точку
-    dot_insert(res, max_shift(shift1, shift2) + 1);
+    if (shift1 > 0 || shift2 > 0) {
+        dot_insert(res, max_shift(shift1, shift2));
+    }
     if (shift1 > 0 || shift2 > 0)
         zero_cutter(res);
     // Ещё раз переворачиваем строку
     revers(res, (int)strlen(res));
 
     // Сравниваем строку с максимальным значением
-    if (strcmp(res, MAX_DECIMAL_STR) > 0) {
+    if (size_check(res)) {
         return LARGE;
     }
+    // if (strcmp(res, MAX_DECIMAL_STR) > 0) {
+    //     return LARGE;
+    // }
     else
         // Записываем результат в decimal
         *result = char_to_decimal(res);
@@ -112,3 +119,34 @@ size_t max_shift(int shift1, int shift2) {
     return (shift1 >= shift2) ? shift1 : shift2;
 }
 
+int size_check(char *dec) {
+    char *max_decimal = MAX_DECIMAL_STR;
+    int result = 0;
+    int count = 1;
+    char temp[BUF] = {'\0'};
+    // Копируем массив в temp, пропуская идущие впереди нули и знак.
+    // Считаем количество знаков в новом массиве
+    for (size_t j = 0, i = 0; j < strlen(dec); j++, i++) {
+        if (dec[j] == '0' || dec[j] == '-')
+            continue;
+        if (dec[j] != '.') {
+            count++;
+            temp[i] = dec[j];
+        }
+    }
+    if (count > 29) {
+        result = 1;
+    }
+    else if (count == 29) {
+        for (int i = 0; i < (int)strlen(max_decimal); i++) {
+            if (temp[i] <= max_decimal[i]) {
+                continue;
+            }
+            else {
+                result = 1;
+                break;
+            }
+        }
+    }
+    return result;
+}

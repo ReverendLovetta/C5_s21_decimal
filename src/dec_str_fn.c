@@ -81,7 +81,7 @@ void dot_insert(char *result, size_t period_length) {
 int digits_aft_dot(char *dec) {
     char *sft1 = strchr(dec, '.');  // Define dot position
     // Count digits after dot. If sft1 == NULL return 0
-    return (!sft1) ? 0 : (int)strlen(dec) - (sft1 - dec + 1);  
+    return (!sft1) ? 0 : (int)strlen(dec) - (sft1 - dec);  
 }
 
 // Удаление лишних нулей в конце дробной части.

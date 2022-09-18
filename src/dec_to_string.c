@@ -4,11 +4,11 @@
 #define PERIOD_END 23
 
 int exp_string(char *result, int degree);
-long double period_calc(int a);
+int period_calc(int a);
 
 int dec_to_string(s21_decimal *a, char *main_result) {
   size_t len = sizeof(int) * CHAR_BIT;
-  long double period = 1;
+  int period = 0;
   char result[BUF], mid_result[BUF];
   memset(result, '\0', BUF);
   memset(mid_result, '\0', BUF);
@@ -27,24 +27,26 @@ int dec_to_string(s21_decimal *a, char *main_result) {
       }
     }
   }
-  char period_string[BUF];
-  memset(period_string, '\0', BUF);
-  sprintf(period_string, "%0.LF", period);
-  size_t result_length = strlen(result), period_length = strlen(period_string);
-  while (result_length < period_length) {
-    result[result_length] = '0';
-    result_length++;
+
+  // Добавить в конец массива недостающие нули
+  while ((int)strlen(result) < period) {
+      result[strlen(result)] = '0';
   }
+
+  // Добавить знак
   if ((checkbit(a->bits[3], MAX_INT_SHIFT) == 1) &&
       (a->bits[0] != 0 || a->bits[1] != 0 || a->bits[2] != 0))
     result[strlen(result)] = '-';
-  // Функция для добавляния точки в число
-  dot_insert(result, period_length);
+  // Добавить точку в число
+  if (period > 0)
+      dot_insert(result, period);
+  // Развернуть массив
   revers(result, strlen(result));
   strcpy(main_result, result);
   return EXIT_SUCCESS;
 }
 
+// Умножение строки на 2
 int mult_by_2(char *a, char *result) {
   int carry = 0;
   int interm = 0;
@@ -60,6 +62,7 @@ int mult_by_2(char *a, char *result) {
   return EXIT_SUCCESS;
 }
 
+// Возведение строки в степень degree
 int exp_string(char *result, int degree) {
   result[0] = '2';
   if (degree == 0)
@@ -73,12 +76,13 @@ int exp_string(char *result, int degree) {
   return EXIT_SUCCESS;
 }
 
-long double period_calc(int a) {
-  long double base2_result = 0;
-  for (int i = PERIOD_START; i <= PERIOD_END; i++) {
+// Подсчёт количества знаков в числе
+int period_calc(int a) {
+  int result = 0;
+  for (int i = PERIOD_START, j = 0; i <= PERIOD_END; i++, j++) {
     if (checkbit(a, i) == 1) {
-      base2_result = pow(2, i - 16) + base2_result;
+      result = pow(2, j) + result;
     }
   }
-  return pow(10, base2_result);
+  return result;
 }
