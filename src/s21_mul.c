@@ -77,7 +77,9 @@ int mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     // умножаем две строки
     mult_two_string(temp_dec1, temp_dec2, res);
     // Добавляем точку
-    dot_insert(res, shift_sum(shift1, shift2) + 1);
+    if (shift1 > 0 || shift2 > 0) {
+        dot_insert(res, shift_sum(shift1, shift2));
+    }
 
     if (shift1 > 0 || shift2 > 0)
         zero_cutter(res);
@@ -174,7 +176,7 @@ int size_check(char *dec) {
     int result = 0;
     if (strlen(dec) == 29) {
         for (int i = 0; i < (int)strlen(max_decimal); i++) {
-            if (dec[i] <= max_decimal[i]) {
+            if (dec[i] <= max_decimal[i] || dec[i] == '.') {
                 continue;
             }
             else {

@@ -62,8 +62,8 @@ char *find_point(const char *string) {
 
 void delete_point(char *string, unsigned int *value, char *p_point) {
   size_t col = strlen(string) - (p_point - string);  // степень 10
-  if (col > 28) {  // Ограничение на 28 разрядов, без округления числа
-    col = 28;
+  if (col > 29) {  // Ограничение на 28 разрядов, без округления числа
+    col = 29;
   }
   *value = *value | (col << 16);
   char fractional_part[col + 1];  // Хранить дробную часть
