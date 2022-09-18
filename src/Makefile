@@ -43,7 +43,7 @@ $(TEST_EXEC): %.out: %.o $(TEST_OBJS)
 
 .PHONY: s21_decimal.a
 s21_decimal.a: $(LIB_OBJS) 
-	@ar rsv $(LIB_OUT) $(LIB_OBJS)
+	@ar rs $(LIB_OUT) $(LIB_OBJS)
 	@ranlib $(LIB_OUT)
 
 .PHONY: test
