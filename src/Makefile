@@ -43,11 +43,12 @@ $(TEST_EXEC): %.out: %.o $(TEST_OBJS)
 
 .PHONY: s21_decimal.a
 s21_decimal.a: $(LIB_OBJS) 
-	@ar rc $(LIB_OUT) $(LIB_OBJS)
+	@ar rsv $(LIB_OUT) $(LIB_OBJS)
 	@ranlib $(LIB_OUT)
 
 .PHONY: test
 test: s21_decimal.a build
+	@find . -name "*.out" -exec rm -f {} \;
 
 build: $(TEST_EXEC)
 	@for test in $^; do \
