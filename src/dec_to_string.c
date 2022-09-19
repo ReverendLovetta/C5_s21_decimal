@@ -38,8 +38,9 @@ int dec_to_string(s21_decimal *a, char *main_result) {
       (a->bits[0] != 0 || a->bits[1] != 0 || a->bits[2] != 0))
     result[strlen(result)] = '-';
   // Добавить точку в число
-  if (period > 0)
+  if (period > 0) {
       dot_insert(result, period);
+  }
   // Развернуть массив
   revers(result, strlen(result));
   strcpy(main_result, result);
