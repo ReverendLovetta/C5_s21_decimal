@@ -61,11 +61,11 @@ char *find_point(const char *string) {
 }
 
 void delete_point(char *string, unsigned int *value, char *p_point) {
-  size_t col = strlen(string) - (p_point - string);  // степень 10
+  size_t col = strlen(string) - (p_point - string) - 1;  // степень 10
   if (col > 29) {  // Ограничение на 28 разрядов, без округления числа
     col = 29;
   }
-  *value = *value | (col << 15);
+  *value = *value | (col << 17);
   char fractional_part[col + 1];  // Хранить дробную часть
   memset(fractional_part, '\0', col);
   strncpy(fractional_part, (p_point + 1), col * sizeof(char));
