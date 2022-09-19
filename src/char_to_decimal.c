@@ -65,7 +65,7 @@ void delete_point(char *string, unsigned int *value, char *p_point) {
   if (col > 29) {  // Ограничение на 28 разрядов, без округления числа
     col = 29;
   }
-  *value = *value | (col << 16);
+  *value = *value | (col << 15);
   char fractional_part[col + 1];  // Хранить дробную часть
   memset(fractional_part, '\0', col);
   strncpy(fractional_part, (p_point + 1), col * sizeof(char));
