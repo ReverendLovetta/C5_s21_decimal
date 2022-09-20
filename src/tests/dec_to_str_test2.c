@@ -396,6 +396,19 @@ START_TEST(dec_to_str_29) {
 }
 END_TEST
 
+START_TEST(dec_to_str_30) {
+    char *etalon = "0.0000000000000000004294967295";
+    s21_decimal number1 = {0};
+    number1.bits[0] = 4294967295;
+    number1.bits[1] = 0;
+    number1.bits[2] = 0;
+    zapis_stepeni_v_decimal(28, &number1);
+    char result[BUF] = {'\0'};
+    dec_to_string(&number1, result);
+    ck_assert_str_eq(etalon, result);
+}
+END_TEST
+
 
 Suite * sprintf_test(void) {
     Suite *s;
@@ -434,6 +447,7 @@ Suite * sprintf_test(void) {
     tcase_add_test(tc_add, dec_to_str_27);
     tcase_add_test(tc_add, dec_to_str_28);
     tcase_add_test(tc_add, dec_to_str_29);
+    tcase_add_test(tc_add, dec_to_str_30);
     suite_add_tcase(s, tc_add);
 
     return s;

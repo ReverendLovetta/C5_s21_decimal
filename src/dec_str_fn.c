@@ -61,6 +61,8 @@ void dot_insert(char *result, int period_length) {
     for (; i < (int)strlen(result); i++) {
         temp2[i + 1] = result[i];
     }
+    if (temp2[i] == '.')
+        temp2[i + 1] = '0';
     memset(result, '\0', BUF);
     strcpy(result, temp2);
 }
