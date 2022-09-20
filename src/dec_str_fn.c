@@ -52,19 +52,19 @@ int char_to_int(char a) { return (a <= '9' && a >= '0') ? a - '0' : 0; }
 */
 
 void dot_insert(char *result, int period_length) {
-    char temp2[BUF] = {'\0'};
+    char temp[BUF] = {'\0'};
     int i = 0;
     for (; i < period_length; i++) {
-        temp2[i] = result[i];
+        temp[i] = result[i];
     }
-    temp2[i] = '.';
+    temp[i] = '.';
     for (; i < (int)strlen(result); i++) {
-        temp2[i + 1] = result[i];
+        temp[i + 1] = result[i];
     }
-    if (temp2[i] == '.')
-        temp2[i + 1] = '0';
+    if (temp[i] == '.')
+        temp[i + 1] = '0';
     memset(result, '\0', BUF);
-    strcpy(result, temp2);
+    strcpy(result, temp);
 }
 
 int digits_aft_dot(char *dec) {

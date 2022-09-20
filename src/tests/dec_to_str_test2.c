@@ -1,3 +1,4 @@
+// -0.02048
 #include "../header.h"
 
 // Максимальное возможное число
@@ -409,6 +410,18 @@ START_TEST(dec_to_str_30) {
 }
 END_TEST
 
+START_TEST(dec_to_str_31) {
+    char *etalon = "-0.02048";
+    s21_decimal number1 = {0};
+    number1.bits[0] = 2048;
+    number1.bits[1] = 0;
+    number1.bits[2] = 0;
+    number1.bits[3] = 2147811328;
+    char result[BUF] = {'\0'};
+    dec_to_string(&number1, result);
+    ck_assert_str_eq(etalon, result);
+}
+END_TEST
 
 Suite * sprintf_test(void) {
     Suite *s;
@@ -448,6 +461,7 @@ Suite * sprintf_test(void) {
     tcase_add_test(tc_add, dec_to_str_28);
     tcase_add_test(tc_add, dec_to_str_29);
     tcase_add_test(tc_add, dec_to_str_30);
+    tcase_add_test(tc_add, dec_to_str_31);
     suite_add_tcase(s, tc_add);
 
     return s;
