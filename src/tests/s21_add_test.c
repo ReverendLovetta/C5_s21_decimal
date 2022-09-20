@@ -79,6 +79,7 @@ Suite *sprintf_test(void) {
   tcase_add_test(tc_add, add_1);
   tcase_add_test(tc_add, add_2);
   tcase_add_test(tc_add, add_3);
+  tcase_add_test(tc_add, add_4);
   suite_add_tcase(s, tc_add);
 
   return s;
