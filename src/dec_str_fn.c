@@ -51,34 +51,19 @@ int char_to_int(char a) { return (a <= '9' && a >= '0') ? a - '0' : 0; }
     количество знаков за запятой.
 */
 
-void dot_insert(char *result, size_t period_length) {
-    char temp[BUF];
-    memset(temp, '\0', BUF);
-    int j = 0, i = 0;
-    size_t k = strlen(result);
-    while (period_length > 1) {
-        if (result[j] == '\0')
-            temp[i] = '0';
-        else
-            temp[i] = result[j];
-        i++;
-        j++;
-        k--;
-        period_length -= 1;
+void dot_insert(char *result, int period_length) {
+    char temp2[BUF] = {'\0'};
+    int i = 0;
+    for (; i < period_length; i++) {
+        temp2[i] = result[i];
     }
-    temp[i] = '.';
-    i++;
-    while (k > 0) {
-        temp[i] = result[j];
-        i++;
-        j++;
-        k--;
+    temp2[i] = '.';
+    for (; i < (int)strlen(result); i++) {
+        temp2[i + 1] = result[i];
     }
     memset(result, '\0', BUF);
-    strcpy(result, temp);
+    strcpy(result, temp2);
 }
-
-// Подсчёт количества символов в строке после точки
 
 int digits_aft_dot(char *dec) {
     char *sft1 = strchr(dec, '.');  // Define dot position

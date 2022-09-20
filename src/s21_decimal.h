@@ -115,7 +115,7 @@ size_t max_lenght(char *num1, char *num2);
 int char_to_int(char a);
 
 // Вставки точки-разделителя в строку
-void dot_insert(char *result, size_t period_length);
+void dot_insert(char *result, int period_length);
 
 // Подсчёт количества символов за точкой
 int digits_aft_dot(char *dec);
