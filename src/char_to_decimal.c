@@ -30,7 +30,7 @@ s21_decimal char_to_decimal(const char *str) {
   }
   int len = strlen(str);
   char string[len + 1];
-  memset(string, '\0', len + 1);
+  memset(string, '\0', sizeof(char) * (len + 1));
   strncpy(string, str, len);
   char *string_ptr = string;
   s21_decimal result = {0};
@@ -62,14 +62,14 @@ char *find_point(const char *string) {
 
 void delete_point(char *string, unsigned int *value, char *p_point) {
   size_t col = strlen(string) - (p_point - string) - 1;  // степень 10
-  if (col > 29) {  // Ограничение на 28 разрядов, без округления числа
-    col = 29;
+  if (col > 28) {  // Ограничение на 28 разрядов, без округления числа
+    col = 28;
   }
-  *value = *value | (col << 17);
+  *value = *value | (col << 16);
   char fractional_part[col + 1];  // Хранить дробную часть
-  memset(fractional_part, '\0', col);
+  memset(fractional_part, '\0', col + 1);
   strncpy(fractional_part, (p_point + 1), col * sizeof(char));
-  strcpy(p_point, fractional_part);
+  strncpy(p_point, fractional_part, (col + 1) * sizeof(char));
 }
 
 void binary_conversion(char *str, s21_decimal *value) {
