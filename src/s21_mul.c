@@ -63,8 +63,11 @@ int mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
      dec_to_string(&value_1, dec1);
      dec_to_string(&value_2, dec2);
     // Считаем количество символов после точки у двух чисел
-    int shift1 = digits_aft_dot(dec1);
-    int shift2 = digits_aft_dot(dec2);
+    int shift1 = digits_aft_dot(dec1) - 1;
+    int shift2 = digits_aft_dot(dec2) - 1;
+    int offset_sum = shift_sum(shift1, shift2);
+    printf("shift1: %d\nshift2: %d\noffset_sum: %d\n", 
+            shift1, shift2, offset_sum);
     char temp_dec1[BUF] = {'\0'};
     char temp_dec2[BUF] = {'\0'};
     // Убираем точку и копируем строки во временный масив
@@ -78,7 +81,7 @@ int mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     mult_two_string(temp_dec1, temp_dec2, res);
     // Добавляем точку
     if (shift1 > 0 || shift2 > 0) {
-        dot_insert(res, shift_sum(shift1, shift2));
+        dot_insert(res, offset_sum + 1);
     }
 
     if (shift1 > 0 || shift2 > 0)
@@ -88,7 +91,7 @@ int mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     revers(res, (int)strlen(res));
 
     // Сравниваем строку с максимальными значением
-    if (strlen(res) > 29 || size_check(res)) {
+    if (size_check(res)) {
         return LARGE;
     }
     else {
@@ -99,10 +102,13 @@ int mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     return SUCCESS;
 }
 
-
-
 int shift_sum(int shift1, int shift2) {
-    return shift1 + shift2;
+    int sum = 0;
+    if (shift1 > 0)
+        sum += shift1;
+    if (shift2 > 0)
+        sum += shift2;
+    return sum;
 }
 
 
@@ -171,20 +177,53 @@ int mult_by_number(char *a, char *result, int number, int j) {
     return EXIT_SUCCESS;
 }
 
+/*
+    Функция для проверки числа на максимальную длину и проверки на
+    максимально-минимальное значение decimal
+*/
+
 int size_check(char *dec) {
-    char *max_decimal = MAX_DECIMAL_STR;
+    // char *max_decimal = MAX_DECIMAL_STR;
+    printf("DEC: %s\n", dec);
+
     int result = 0;
-    if (strlen(dec) == 29) {
-        for (int i = 0; i < (int)strlen(max_decimal); i++) {
-            if (dec[i] <= max_decimal[i] || dec[i] == '.') {
-                continue;
-            }
-            else {
-                result = 1;
-                break;
-            }
+    int count = 1;  // Так как в числе как минимум 0, значение 1
+    char temp[BUF] = {'\0'};
+
+    // Сначала определяем количество знаков перед точкой
+    int offset = (int)strlen(dec) - digits_aft_dot(dec);
+
+    // Если знаков больше 0, то копируем значение в temp пропуская 
+    if (offset > 0) {
+        for (int i = 0; i < offset; i++) {
+            temp[i] = dec[i];
         }
+        for (; offset < (int)strlen(dec); offset++) {
+            temp[offset] = dec[offset + 1];
+        }
+
+    } else {
+        strcpy(temp, dec);
     }
+
+
+    printf("TEMP: %s\n", temp);
+
+
+    if (count > 29) {
+        result = 1;
+    }
+    // Если в строке 29 символов, сравниваем с максимальным decimal
     return result;
 }
+
+
+
+
+
+
+
+
+
+
 
