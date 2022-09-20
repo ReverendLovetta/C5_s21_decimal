@@ -3,15 +3,13 @@
 // децимал
 // Функция не обрабатывает числа превышающая степень 28, просто ничего
 // не запишется
-#include "./s21_decimal.h"
+#include "s21_decimal.h"
 
-void zapis_stepeni_v_decimal(int a, s21_decimal *dst) {
-  if (a <= 28 && a >= 0) {
-    for (int i = 21; i >= 16; i--) {
-      if (a - pow(2, i - 16) >= 0) {
-        a = a - pow(2, i - 16);
-        dst->bits[3] |= 1 << i;
-      }
-    }
+void zapis_stepeni_v_decimal(const unsigned int a, s21_decimal *dst) {
+  if (dst->bits[3] != 0) {
+    dst->bits[3] = 0;
+  }
+  if (a <= 28) {
+    dst->bits[3] |= (a << 16);
   }
 }
