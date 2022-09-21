@@ -32,8 +32,8 @@
 //     ck_assert_int_eq(exit_code, 1);
 // }
 // END_TEST
-
-//  Число слишком мало или равно отрицательной бесконечности
+//
+// //  Число слишком мало или равно отрицательной бесконечности
 // START_TEST(mul_3) {
 //     char s21_result[BUF], result[BUF];
 //     memset(result, '\0', BUF);
@@ -50,7 +50,7 @@
 //     ck_assert_int_eq(exit_code, 2);
 // }
 // END_TEST
-
+//
 // START_TEST(mul_4) {
 //     char s21_result[BUF] = {'\0'};
 //     char *a = "79228162514264337593543950335";
@@ -67,7 +67,7 @@
 //     ck_assert_int_eq(exit_code, 0);
 // }
 // END_TEST
-
+//
 // START_TEST(mul_5) {
 //     char *a = "79228162514264337593543950335";
 //     char *b = "4";
@@ -81,7 +81,7 @@
 //     ck_assert_int_eq(exit_code, 1);
 // }
 // END_TEST
-
+//
 // START_TEST(mul_6) {
 //     char *a = "79228162514264337593543950335";
 //     char *b = "-4";
@@ -95,7 +95,7 @@
 //     ck_assert_int_eq(exit_code, 2);
 // }
 // END_TEST
-
+//
 // START_TEST(mul_7) {
 //     char s21_result[BUF] = {'\0'};
 //     char *a = "7922816251426";
@@ -113,7 +113,7 @@
 //     ck_assert_int_eq(exit_code, 0);
 // }
 // END_TEST
-
+//
 // START_TEST(mul_8) {
 //     char s21_result[BUF] = {'\0'};
 //     char result[BUF] = {'\0'};
@@ -131,25 +131,24 @@
 // }
 // END_TEST
 //
-START_TEST(mul_9) {
-    char s21_result[BUF] = {'\0'};
-    char *a = "7922.8166";
-    char *b = "1.152";
-    s21_decimal number1 = {0};
-    s21_decimal number2 = {0};
-    number1 = char_to_decimal(a);
-    number2 = char_to_decimal(b);
-    s21_decimal dec_result = {0};
-    int exit_code = 0;
-    exit_code = s21_mul(number1, number2, &dec_result);
-    dec_to_string(&dec_result, s21_result);
-    char result[BUF] = "9127.0847232";
-    printf("\n\n\n");
-    ck_assert_str_eq(result, s21_result);
-    ck_assert_int_eq(exit_code, 0);
-}
-END_TEST
-
+// START_TEST(mul_9) {
+//     char s21_result[BUF] = {'\0'};
+//     char *a = "7922.8166";
+//     char *b = "1.152";
+//     s21_decimal number1 = {0};
+//     s21_decimal number2 = {0};
+//     number1 = char_to_decimal(a);
+//     number2 = char_to_decimal(b);
+//     s21_decimal dec_result = {0};
+//     int exit_code = 0;
+//     exit_code = s21_mul(number1, number2, &dec_result);
+//     dec_to_string(&dec_result, s21_result);
+//     char result[BUF] = "9127.0847232";
+//     ck_assert_str_eq(result, s21_result);
+//     ck_assert_int_eq(exit_code, 0);
+// }
+// END_TEST
+//
 // START_TEST(mul_10) {
 //     char s21_result[BUF] = {'\0'};
 //     char *a = "7922.816615";
@@ -195,11 +194,47 @@ END_TEST
 //     ck_assert_int_eq(exit_code, 1);
 // }
 // END_TEST
+//
+// START_TEST(mul_13) {
+//     char s21_result[BUF] = {'\0'};
+//     char *a = "1.5845632502852867518708790067"; // 28 after dot
+//     char *b = "5";
+//     s21_decimal number1 = {0};
+//     s21_decimal number2 = {0};
+//     number1 = char_to_decimal(a);
+//     number2 = char_to_decimal(b);
+//     s21_decimal dec_result = {0};
+//     int exit_code = 0;
+//     exit_code = s21_mul(number1, number2, &dec_result);
+//     dec_to_string(&dec_result, s21_result);
+//     char result[BUF] = "7.9228162514264337593543950335";
+//     ck_assert_str_eq(result, s21_result);
+//     ck_assert_int_eq(exit_code, 0);
+// }
+// END_TEST
+//
+// START_TEST(mul_14) {
+//     char s21_result[BUF] = {'\0'};
+//     char *a = "0.00790067"; // 28 after dot
+//     char *b = "0.21";
+//     s21_decimal number1 = {0};
+//     s21_decimal number2 = {0};
+//     number1 = char_to_decimal(a);
+//     number2 = char_to_decimal(b);
+//     s21_decimal dec_result = {0};
+//     int exit_code = 0;
+//     exit_code = s21_mul(number1, number2, &dec_result);
+//     dec_to_string(&dec_result, s21_result);
+//     char result[BUF] = "0.0016591407";
+//     ck_assert_str_eq(result, s21_result);
+//     ck_assert_int_eq(exit_code, 0);
+// }
+// END_TEST
 
-START_TEST(mul_13) {
+START_TEST(mul_15) {
     char s21_result[BUF] = {'\0'};
-    char *a = "1.5845632502852867518708790067"; // 28 after dot
-    char *b = "5";
+    char *a = "-0,0000000000000001";  // 28 after dot 
+    char *b = "0,000000000001";
     s21_decimal number1 = {0};
     s21_decimal number2 = {0};
     number1 = char_to_decimal(a);
@@ -208,7 +243,7 @@ START_TEST(mul_13) {
     int exit_code = 0;
     exit_code = s21_mul(number1, number2, &dec_result);
     dec_to_string(&dec_result, s21_result);
-    char result[BUF] = "7.9228162514264337593543950335";
+    char result[BUF] = "-0,0000000000000000000000000001";
     ck_assert_str_eq(result, s21_result);
     ck_assert_int_eq(exit_code, 0);
 }
@@ -230,11 +265,13 @@ Suite * sprintf_test(void) {
     // tcase_add_test(tc_mul, mul_6);
     // tcase_add_test(tc_mul, mul_7);
     // tcase_add_test(tc_mul, mul_8);
-    tcase_add_test(tc_mul, mul_9);
+    // tcase_add_test(tc_mul, mul_9);
     // tcase_add_test(tc_mul, mul_10);
     // tcase_add_test(tc_mul, mul_11);
     // tcase_add_test(tc_mul, mul_12);
-    tcase_add_test(tc_mul, mul_13);
+    // tcase_add_test(tc_mul, mul_13);
+    // tcase_add_test(tc_mul, mul_14);
+    tcase_add_test(tc_mul, mul_15);
     suite_add_tcase(s, tc_mul);
 
     return s;
