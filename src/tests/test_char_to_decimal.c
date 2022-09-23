@@ -459,6 +459,39 @@ START_TEST(char_to_decimal_29) {
 }
 END_TEST
 
+START_TEST(char_to_decimal_30) {
+  char etalon[] = "0.0000000000000000000000000001";
+  s21_decimal value = {0}, test_value = {0};
+  test_value.bits[0] = 1;
+  test_value.bits[1] = 0;
+  test_value.bits[2] = 0;
+  zapis_stepeni_v_decimal(28, &test_value);
+  value = char_to_decimal(etalon);
+  ck_assert_int_eq(value.bits[0], test_value.bits[0]);
+  ck_assert_int_eq(value.bits[1], test_value.bits[1]);
+  ck_assert_int_eq(value.bits[2], test_value.bits[2]);
+  ck_assert_int_eq(value.bits[3], test_value.bits[3]);
+}
+END_TEST
+
+START_TEST(char_to_decimal_31) {
+  char etalon[] = "-0.0000000000000000000000000001";
+  s21_decimal value = {0}, test_value = {0};
+  test_value.bits[0] = 1;
+  test_value.bits[1] = 0;
+  test_value.bits[2] = 0;
+  test_value.bits[3] = 0;
+  zapis_stepeni_v_decimal(28, &test_value);
+  s21_negate(test_value, &test_value);
+  
+  value = char_to_decimal(etalon);
+  ck_assert_int_eq(value.bits[0], test_value.bits[0]);
+  ck_assert_int_eq(value.bits[1], test_value.bits[1]);
+  ck_assert_int_eq(value.bits[2], test_value.bits[2]);
+  ck_assert_int_eq(value.bits[3], test_value.bits[3]);
+}
+END_TEST
+
 Suite *sprintf_test(void) {
   Suite *s;
   TCase *tc_is_char_to_decimal;
@@ -498,6 +531,8 @@ Suite *sprintf_test(void) {
   tcase_add_test(tc_is_char_to_decimal, char_to_decimal_27);
   tcase_add_test(tc_is_char_to_decimal, char_to_decimal_28);
   tcase_add_test(tc_is_char_to_decimal, char_to_decimal_29);
+  tcase_add_test(tc_is_char_to_decimal, char_to_decimal_30);
+  tcase_add_test(tc_is_char_to_decimal, char_to_decimal_31);
   suite_add_tcase(s, tc_is_char_to_decimal);
 
   return s;
