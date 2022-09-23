@@ -62,12 +62,13 @@ int mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
      char dec2[BUF] = {'\0'};
      dec_to_string(&value_1, dec1);
      dec_to_string(&value_2, dec2);
+     printf("IN MUL:\n\nDEC_1; %s\nDEC_2: %s\n\n\n", dec1, dec2);
     // Считаем количество символов после точки у двух чисел
     int shift1 = digits_aft_dot(dec1) - 1;
     int shift2 = digits_aft_dot(dec2) - 1;
     int offset_sum = shift_sum(shift1, shift2);
-    printf("shift1: %d\nshift2: %d\noffset_sum: %d\n", 
-            shift1, shift2, offset_sum);
+    // printf("shift1: %d\nshift2: %d\noffset_sum: %d\n", 
+    //         shift1, shift2, offset_sum);
     char temp_dec1[BUF] = {'\0'};
     char temp_dec2[BUF] = {'\0'};
     // Убираем точку и копируем строки во временный масив
@@ -81,7 +82,7 @@ int mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     mult_two_string(temp_dec1, temp_dec2, res);
     // Добавляем точку
     if (shift1 > 0 || shift2 > 0) {
-        dot_insert(res, offset_sum + 1);
+        dot_insert(res, offset_sum);
     }
 
     if (shift1 > 0 || shift2 > 0)
@@ -184,7 +185,6 @@ int mult_by_number(char *a, char *result, int number, int j) {
 
 int size_check(char *dec) {
     // char *max_decimal = MAX_DECIMAL_STR;
-    printf("DEC: %s\n", dec);
 
     int result = 0;
     int count = 1;  // Так как в числе как минимум 0, значение 1
@@ -196,19 +196,21 @@ int size_check(char *dec) {
     // Если знаков больше 0, то копируем значение в temp пропуская 
     if (offset > 0) {
         for (int i = 0; i < offset; i++) {
+            if (dec[0] == '0')
+                continue;
+            else {
             temp[i] = dec[i];
+            count++;
+            }
         }
         for (; offset < (int)strlen(dec); offset++) {
             temp[offset] = dec[offset + 1];
+            count++;
         }
 
     } else {
         strcpy(temp, dec);
     }
-
-
-    printf("TEMP: %s\n", temp);
-
 
     if (count > 29) {
         result = 1;
