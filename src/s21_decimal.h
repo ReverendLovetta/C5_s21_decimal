@@ -16,6 +16,12 @@
 #define MAX_DECIMAL_STR "79228162514264337593543950335"
 #define MIN_DECIMAL_STR "-79228162514264337593543950335"
 
+#define SUCCESS 0
+#define LARGE 1
+#define SMALL 2
+#define POSITIVE 0
+#define NEGATIVE 1
+
 typedef unsigned int u_int32_t;
 
 typedef struct {
@@ -124,6 +130,9 @@ int digits_aft_dot(char *dec);
 char *zero_cutter(char *result);
 
 // Банковское округление числа
-void bank_round(char *string_of_number);
+int bank_round(char *string_of_number, int sign);
+
+// Приведение числа с точкой к целому значению. Убирает точку и записывает в temp_dec
+char *remove_dot(char *dec, char *temp_dec);
 
 #endif  // SRC_S21_DECIMAL_H_

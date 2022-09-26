@@ -1,91 +1,51 @@
-//это алгоритм округления величин до целых чисел, при котором числа,
-//равноудаленные от двух ближайших целых чисел, округляются до ближайшего
-//четного целого числа. равноудаленные это занчит 0.5-> 0, 1.5->2, 2,5->2 3,5->4
-//Другие десятичные дроби округляются, как и следовало ожидать, — от 0,4 до 0,
-//от 0,6 до 1, от 1,4 до 1, от 1,6 до 2 и т. д. Только числа x,5 получают
-//«особую» обработку.
-// Подается строка, над ней происходят манипуляции
-// Cтрока обрабатывает строго до целого числа
+#include "./s21_decimal.h"
 
-#include "s21_decimal.h"
-void my_truncate(char *string_of_number) {
-  if (string_of_number != NULL) {
-    char *ukaz = string_of_number;
-    while (1) {
-      if (*ukaz == '\0' || *ukaz == '.') {
-        *ukaz = '\0';
-        break;
-      }
-      ukaz++;
+
+int compare_str(char *temp, int sign); // Сравнение строки temp с эталоном
+
+int bank_round(char *str, int sign) {
+    int result = 0;
+    char temp[BUF] = {'\0'};
+    // Сначала определяем количество знаков перед запятой
+    int offset = (int)strlen(str) - digits_aft_dot(str);
+    printf("OFFSET: %d\n", offset);
+    // Удаляем запятую
+    remove_dot(str, temp);
+
+    // Потом определяем количество знаков после удаления запятой
+    int offset2 = (int)strlen(temp);
+    if ((offset2 - offset) != 0) {
+        result = compare_str(temp, sign);
     }
-  }
+    printf("RESULT: %d\n", result);
+
+    printf("OFFSET: %d\n", offset2);
+    printf("STR: %s\n", temp);
+    return result;
 }
 
-void slozhenie(s21_decimal *dst, int exponent) {
-  if (exponent >= 64) {
-    if ((dst->bits[2] & 1 << (exponent - 64)) == 0) {
-      dst->bits[2] |= 1 << (exponent - 64);
-    } else {
-      dst->bits[2] -= pow(2, (exponent - 64));
-      exponent += 1;
-      slozhenie(dst, exponent);
-    }
-  } else if (exponent >= 32) {
-    if ((dst->bits[1] & 1 << (exponent - 32)) == 0) {
-      dst->bits[1] |= 1 << (exponent - 32);
-    } else {
-      dst->bits[1] -= pow(2, (exponent - 32));
-      exponent += 1;
-      slozhenie(dst, exponent);
-    }
-  } else {
-    if ((dst->bits[0] & 1 << exponent) == 0) {
-      dst->bits[0] |= 1 << exponent;
-    } else {
-      dst->bits[0] -= pow(2, exponent);
-      exponent += 1;
-      slozhenie(dst, exponent);
-    }
-  }
-}
 
-void bank_round(char *string_of_number) {
-  if (string_of_number != NULL) {
-    char *ukaz = string_of_number;
-    while (1) {
-      if (*ukaz == '\0') {
-        break;
-      }
-      if (*ukaz == '.') {
-        if (*(ukaz + 1) >= '5') {
-          int number_before_dot = *(ukaz - 1) - '\0';
-          int flag = 0;
-          if (*(ukaz + 1) == '5') {
-            ukaz += 1;
-            while (*(ukaz + 1) != '\0') {
-              if (*(ukaz + 1) != '0') {
-                flag = 1;
-                break;
-              }
-            }
-          }
-          if (flag == 1 || (flag == 0 && number_before_dot % 2 != 0)) {
-            my_truncate(string_of_number);
-            s21_decimal result_number = {0};
-            result_number = char_to_decimal(string_of_number);
-            slozhenie(&result_number, 0);
-            dec_to_string(&result_number, string_of_number);
-          } else {
-            if (number_before_dot % 2 == 0) {
-              my_truncate(string_of_number);
-            }
-          }
-        } else {
-          my_truncate(string_of_number);
+int compare_str(char *temp, int sign) {
+    int result = 0;
+    char *max_decimal = MAX_DECIMAL_STR;
+    int length = (int)strlen(temp);
+    for (int i = 0; i < length; i++) {
+        if (temp[i] == max_decimal[i])
+            continue;
+        else if (temp[i] < max_decimal[i]) {
+            if (i == 28 && i < length)
+                // Здесь вызвать функицю округления
+                
+            result = SUCCESS;
+            break;
         }
-        break;
-      }
-      ukaz++;
+        else if (temp[i] > max_decimal[i]) {
+            if (sign == 0)
+                result = LARGE;
+            else if (sign == 1) {
+                result = SMALL;
+            }
+        }
     }
-  }
+    return result;
 }

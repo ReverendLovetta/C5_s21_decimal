@@ -5,19 +5,11 @@
 
 #include "./s21_decimal.h"
 
-#define SUCCESS 0
-#define LARGE 1
-#define SMALL 2
-#define POSITIVE 0
-#define NEGATIVE 1
-
 // Само сложение
 int mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result, int a);
 
-// Приведение числа с точкой к целому значению. Убирает точку и записывает в temp_dec
-char *remove_dot(char *dec, char *temp_dec);
 
-// Сумма знаков после запятой
+// Считает сумму знаков после запятой
 int shift_sum(int shift1, int shift2);
 
 // Умножение двух строк
@@ -81,16 +73,23 @@ int mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result, int sign)
     char res[BUF] = {'\0'};
     // умножаем две строки
     mult_two_string(temp_dec1, temp_dec2, res);
+    printf("RES: %s\n", res);
     // Добавляем точку
     if (shift1 > 0 || shift2 > 0) {
         dot_insert(res, offset_sum);
+    printf("RES: %s\n", res);
     }
 
-    if (shift1 > 0 || shift2 > 0)
+    if (shift1 > 0 || shift2 > 0) {
         zero_cutter(res);
+    printf("RES: %s\n", res);
+    }
 
     // Ещё раз переворачиваем строку
     revers(res, (int)strlen(res));
+    printf("RES: %s\n", res);
+    // // Округляем результат
+    // bank_round(res, sign);
 
     // Сравниваем строку с максимальными значением
     switch (size_check(res, sign)) {
@@ -115,17 +114,6 @@ int shift_sum(int shift1, int shift2) {
 }
 
 
-char *remove_dot(char *dec, char *temp_dec) {
-    int length = (int)strlen(dec);
-    // Copy dec to temp_dec without dot
-    for (int i = 0, j = 0; i < length; i++) {
-        if (dec[i] != '.') {
-            temp_dec[j] = dec[i];
-            j++;
-        }
-    }
-    return temp_dec;
-}
 
 /*
     Умножаем первую строку на каждый элемент второго массива и складываем результат.
