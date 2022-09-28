@@ -4,7 +4,7 @@ START_TEST(bank_round_1) {
     // RESULT 79228162511264337593543950335 Почти максимальное значение decimal
     char str[BUF] = "78228162514264337593543950335.89";
     char etalon[BUF] = "78228162514264337593543950335";
-    ck_assert_int_eq(bank_round(str), 0);
+    ck_assert_int_eq(bank_round(str, POSITIVE), 0);
     ck_assert_str_eq(str, etalon);
 }
 END_TEST
