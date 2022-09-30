@@ -1,0 +1,5 @@
+gcc s21_mul_test.o -L. s21_decimal.a -o s21_mul_test.out -lcheck -lpthread -lrt -lm -lsubunit
+Running suite(s): s21_mul
+0%: Checks: 1, Failures: 1, Errors: 0
+tests/s21_mul_test.c:183:F:s21_mul:mul_11:0: Assertion 'exit_code == 1' failed: exit_code == 0, 1 == 1
+

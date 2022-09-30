@@ -36,7 +36,7 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
              checkbit(value_2.bits[3], MAX_INT_SHIFT) == 0) {
         exit_code = mul(value_1, value_2, result, POSITIVE);
 
-    // Вычитание, если одно число положительное, другое отрицательное
+    // Eсли одно число положительное, другое отрицательное
     } else {
         // Сначала привести оба числа к положительному
         if (checkbit(value_1.bits[3], MAX_INT_SHIFT) == 1)
@@ -52,10 +52,11 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 }
 
 int mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result, int sign) {
-     char dec1[BUF] = {'\0'};
-     char dec2[BUF] = {'\0'};
-     dec_to_string(&value_1, dec1);
-     dec_to_string(&value_2, dec2);
+    int mul_result = 0;
+    char dec1[BUF] = {'\0'};
+    char dec2[BUF] = {'\0'};
+    dec_to_string(&value_1, dec1);
+    dec_to_string(&value_2, dec2);
     // Считаем количество символов после точки у двух чисел
     int shift1 = digits_aft_dot(dec1) - 1;
     int shift2 = digits_aft_dot(dec2) - 1;
@@ -73,35 +74,22 @@ int mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result, int sign)
     char res[BUF] = {'\0'};
     // умножаем две строки
     mult_two_string(temp_dec1, temp_dec2, res);
-    printf("RES: %s\n", res);
     // Добавляем точку
     if (shift1 > 0 || shift2 > 0) {
         dot_insert(res, offset_sum);
-    printf("RES: %s\n", res);
     }
 
     if (shift1 > 0 || shift2 > 0) {
         zero_cutter(res);
-    printf("RES: %s\n", res);
     }
 
     // Ещё раз переворачиваем строку
     revers(res, (int)strlen(res));
-    printf("RES: %s\n", res);
     // // Округляем результат
-    // bank_round(res, sign);
+    mul_result = bank_round(res, sign);
 
-    // Сравниваем строку с максимальными значением
-    switch (size_check(res, sign)) {
-    case SMALL:
-        return SMALL;
-    case LARGE:
-        return LARGE;
-    case 0:
-        // Записываем результат в decimal
-        *result = char_to_decimal(res);
-    }
-    return SUCCESS;
+    *result = char_to_decimal(res);
+    return mul_result;
 }
 
 int shift_sum(int shift1, int shift2) {
