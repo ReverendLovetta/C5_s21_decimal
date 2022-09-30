@@ -1,0 +1,37 @@
+Pseudo code
+
+
+
+If int part more then 29 digits - set exit code and return
+If int part less 29 digits - ok and check float part and round
+if int part equal 29 digits - check number by number and round float part
+If int part is 0 and float part more then 28 digits and 28 digits is 0 - exit code 2
+
+
+79228162514264337593543950335 - etalon
+
+// 29 digits before dot and less then etalon
+78228162514264337593543950335.89        res: 78228162514264337593543950336
+
+// 16 digits before dot and 21 after dot. First 29 digits less then etalon
+1231527195718295.716295812782912389146  res: 1231527195718295.7162958127829
+
+// 29 digits after dot. Need round last digit
+0.79228162514264337593543950335         res: 0.7922816251426433759354395033
+
+// 1 digit before dot. 32 digits after dot. Round last 4 digits
+7.92281625142643375935439503350293      res: 7.9228162514264337593543950335
+
+// 29 digits after dot. Round last 2 digits
+0.00000000000000001328419158128         res: 0.0000000000000000132841915813
+
+// 11 digits before dot and 18 digits after dot. Greater then etalon
+79228162514.264337593543950336          res: 79228162514.26433759354395034
+
+// 11 digits before dot and 18 digits after dot. Greater then etalon
+79228162514.264337599543950335          res: 79228162514.26433759954395034
+
+// 31 digits after dot and less then max period. Set exit code 2
+0.0000000000000000000000000000123
+
+9.99999999999999999999999999999         res: 10

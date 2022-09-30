@@ -89,3 +89,15 @@ char *zero_cutter(char *result) {
     strcpy(result, temp);
     return result;
 }
+
+char *remove_dot(char *dec, char *temp_dec) {
+    int length = (int)strlen(dec);
+    // Copy dec to temp_dec without dot
+    for (int i = 0, j = 0; i < length; i++) {
+        if (dec[i] != '.') {
+            temp_dec[j] = dec[i];
+            j++;
+        }
+    }
+    return temp_dec;
+}

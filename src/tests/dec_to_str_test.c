@@ -874,6 +874,22 @@ START_TEST(dec_to_str_59) {
 }
 END_TEST
 
+START_TEST(dec_to_str_60) {
+    char *a = "0.0000000000000001";
+    char *b = "-0.0000000000000001";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    char result[BUF] = {'\0'};
+    dec_to_string(&number1, result);
+    ck_assert_str_eq(a, result);
+    memset(result, '\0', BUF);
+    dec_to_string(&number2, result);
+    ck_assert_str_eq(b, result);
+}
+END_TEST
+
 
 Suite * sprintf_test(void) {
     Suite *s;
@@ -941,6 +957,7 @@ Suite * sprintf_test(void) {
     tcase_add_test(tc_add, dec_to_str_57);
     tcase_add_test(tc_add, dec_to_str_58);
     tcase_add_test(tc_add, dec_to_str_59);
+    tcase_add_test(tc_add, dec_to_str_60);
     suite_add_tcase(s, tc_add);
 
     return s;
