@@ -7,9 +7,9 @@ int main() {
   char *p_point = NULL;
   p_point = find_point(mass);
   if (*p_point == '.') {
-    printf("Sucsess\n");
+    // printf("Sucsess\n");
   } else {
-    printf("find_point returned NULL\n");
+    // printf("find_point returned NULL\n");
   }
   return 0;
 }

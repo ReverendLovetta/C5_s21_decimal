@@ -1,57 +1,12 @@
 #include "../header.h"
 
+// MAX_DECIMAL 79228162514264337593543950335
+
 START_TEST(add_1) {
- char s21_result[BUF] = {'\0'};
- char result[BUF] = {'\0'};
- int a = 421, b = 79, exit_code = 0; 
- s21_decimal number1 = {0};
- s21_decimal number2 = {0};
- s21_from_int_to_decimal(a, &number1);
- s21_from_int_to_decimal(b, &number2);
- s21_decimal dec_result = {0};
- exit_code = s21_add(number1, number2, &dec_result);
- dec_to_string(&dec_result, s21_result);
- sprintf(result, "%d", a + b);
- ck_assert_str_eq(result, s21_result);
- ck_assert_int_eq(exit_code, 0);
-}
-END_TEST
-
-//  Число слишком велико или равно бесконечности  
-START_TEST(add_2) {
-  s21_decimal number1 = {0};
-  s21_decimal number2 = {0};
-  for (int i = 0; i < 3; i++) 
-      number1.bits[i] = UINT_MAX;
-  number2.bits[0] = 3;
-  s21_decimal dec_result = {0};
-  int exit_code = s21_add(number1, number2, &dec_result);
-  ck_assert_int_eq(exit_code, 1);
-}
-END_TEST
-
-// //  Число слишком мало или равно отрицательной бесконечности
-START_TEST(add_3) {
-    char s21_result[BUF], result[BUF];
-    memset(result, '\0', BUF);
-    memset(s21_result, '\0', BUF);
-    s21_decimal number1 = {0};
-    s21_decimal number2 = {0};
-    for (int i = 0; i < 3; i++) 
-        number1.bits[i] = UINT_MAX;
-    number1.bits[3] |= SIGN;
-    number2.bits[0] = 3;
-    number2.bits[3] |= SIGN;
-    s21_decimal dec_result = {0};
-    int exit_code = s21_add(number1, number2, &dec_result);
-    ck_assert_int_eq(exit_code, 2);
-}
-END_TEST
-//
-START_TEST(add_4) {
     char s21_result[BUF] = {'\0'};
     char *a = "79228162514264337593543950334";
     char *b = "1";
+    char *result = "79228162514264337593543950335";
     s21_decimal number1 = {0};
     s21_decimal number2 = {0};
     number1 = char_to_decimal(a);
@@ -60,14 +15,379 @@ START_TEST(add_4) {
     int exit_code = 0;
     exit_code = s21_add(number1, number2, &dec_result);
     dec_to_string(&dec_result, s21_result);
-    ck_assert_str_eq("79228162514264337593543950335", s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+START_TEST(add_2) {
+    // RESULT до округления 792283069363.94376723391129246395
+    char s21_result[BUF] = {'\0'};
+    char *a = "792281625142.64337593543950334";
+    char *b = "1444221.30039129847178912395";
+    char *result = "792283069363.9437672339112925";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+START_TEST(add_3) {
+    // RESULT до округления 1444221188253.9885168211151650354395033422
+    char s21_result[BUF] = {'\0'};
+    char *a = "0.6881255226433759354395033422";
+    char *b = "1444221188253.3003912984717891";
+    char *result = "1444221188253.988516821115165";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+START_TEST(add_4) {
+    // RESULT до округления 
+    char s21_result[BUF] = {'\0'};
+    char *a = "0";
+    char *b = "1444221188253.3003912984717891";
+    char *result = "1444221188253.3003912984717891";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
     ck_assert_int_eq(exit_code, 0);
 }
 END_TEST
 
 START_TEST(add_5) {
+    // RESULT до округления 1444221188253.413349625819590334837
+    char s21_result[BUF] = {'\0'};
+    char *a = "0.112958327347801234837";
+    char *b = "1444221188253.3003912984717891";
+    char *result = "1444221188253.4133496258195903";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+START_TEST(add_6) {
+    // RESULT до округления 0.0000000000000000000000000002 
+    char s21_result[BUF] = {'\0'};
+    char *a = "0.0000000000000000000000000001";
+    char *b = "0.0000000000000000000000000001";
+    char *result = "0.0000000000000000000000000002";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+START_TEST(add_7) {
+    // RESULT до округления 14.0000000000031000000000000002
+    char s21_result[BUF] = {'\0'};
+    char *a = "7.0000000000015500000000000001";
+    char *b = "7.0000000000024500000000000001";
+    char *result = "14.000000000004";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+START_TEST(add_8) {
+    // RESULT до округления 14.0000000000040109346968440055
+    char s21_result[BUF] = {'\0'};
+    char *a = "7.0000000000015514529582582858";
+    char *b = "7.0000000000024594817385857197";
+    char *result = "14.000000000004010934696844006";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+START_TEST(add_9) {
+    // RESULT до округления 79228162514264337593543950334
+    char s21_result[BUF] = {'\0'};
+    char *a = "39614081257132168796771975167";
+    char *b = "39614081257132168796771975167";
+    char *result = "79228162514264337593543950334";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+START_TEST(add_10) {
+    // RESULT до округления 7922816251426433759.6771969004
+    char s21_result[BUF] = {'\0'};
+    char *a = "3961408125713216879.6771975167";
+    char *b = "3961408125713216879.9999993837";
+    char *result = "7922816251426433759.6771969";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+// Сложение отрицательных чисел
+
+START_TEST(add_11) {
+    char s21_result[BUF] = {'\0'};
+    char *a = "-79228162514264337593543950334";
+    char *b = "-1";
+    char *result = "-79228162514264337593543950335";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+START_TEST(add_13) {
+    // RESULT до округления -1444221188253.9885168211151650354395033422
+    char s21_result[BUF] = {'\0'};
+    char *a = "-0.6881255226433759354395033422";
+    char *b = "-1444221188253.3003912984717891";
+    char *result = "-1444221188253.988516821115165";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+START_TEST(add_14) {
+    // RESULT до округления 
+    char s21_result[BUF] = {'\0'};
+    char *a = "-0";
+    char *b = "-1444221188253.3003912984717891";
+    char *result = "-1444221188253.3003912984717891";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+START_TEST(add_15) {
+    // RESULT до округления -1444221188253.413349625819590334837
+    char s21_result[BUF] = {'\0'};
+    char *a = "-0.112958327347801234837";
+    char *b = "-1444221188253.3003912984717891";
+    char *result = "-1444221188253.4133496258195903";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+START_TEST(add_16) {
+    // RESULT до округления -0.0000000000000000000000000002 
+    char s21_result[BUF] = {'\0'};
+    char *a = "-0.0000000000000000000000000001";
+    char *b = "-0.0000000000000000000000000001";
+    char *result = "-0.0000000000000000000000000002";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+START_TEST(add_17) {
+    // RESULT до округления -14.0000000000031000000000000002
+    char s21_result[BUF] = {'\0'};
+    char *a = "-7.0000000000015500000000000001";
+    char *b = "-7.0000000000024500000000000001";
+    char *result = "-14.000000000004";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+START_TEST(add_18) {
+    // RESULT до округления -14.0000000000040109346968440055
+    char s21_result[BUF] = {'\0'};
+    char *a = "-7.0000000000015514529582582858";
+    char *b = "-7.0000000000024594817385857197";
+    char *result = "-14.000000000004010934696844006";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+START_TEST(add_19) {
+    // RESULT до округления -79228162514264337593543950334
+    char s21_result[BUF] = {'\0'};
+    char *a = "-39614081257132168796771975167";
+    char *b = "-39614081257132168796771975167";
+    char *result = "-79228162514264337593543950334";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+START_TEST(add_20) {
+    // RESULT до округления 7922816251426433759.6771969004
+    char s21_result[BUF] = {'\0'};
+    char *a = "-3961408125713216879.6771975167";
+    char *b = "-3961408125713216879.9999993837";
+    char *result = "-7922816251426433759.6771969";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+START_TEST(add_21) {
+    // RESULT до округления 7922816251426433759.6771969004
+    char s21_result[BUF] = {'\0'};
+    char *a = "-3960000000009.6771975167";
+    char *b = "-3961408125713216879.9999993837";
+    char *result = "-3961412085713216889.6771969004";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+// Тесты на очень большое число
+
+START_TEST(add_22) {
+    // RESULT  79228162514264337593543950336 
     char *a = "79228162514264337593543950335";
-    char *b = "4";
+    char *b = "1";
     s21_decimal number1 = {0};
     s21_decimal number2 = {0};
     number1 = char_to_decimal(a);
@@ -79,12 +399,29 @@ START_TEST(add_5) {
 }
 END_TEST
 
-// Добавить тест add_6 cо сложением положительного и отрицательного числа
+START_TEST(add_23) {
+    // RESULT  79228162514264337593543950331 
+    char *a = "79228162514264337593540000335";
+    char *b = "3543950335";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    ck_assert_int_eq(exit_code, 1);
+}
+END_TEST
 
-START_TEST(add_7) {
+// Тесты на сложение отрицательного и положительного числа
+
+START_TEST(add_24) {
+    // RESULT до округления 15845632502852867518.708790067
     char s21_result[BUF] = {'\0'};
-    char *a = "7922816251426";
-    char *b = "1152";
+    char *a = "-3960000000009.6771975167";
+    char *b = "3961408125713216879.9999993837";
+    char *result = "15845632502852867518.708790067";
     s21_decimal number1 = {0};
     s21_decimal number2 = {0};
     number1 = char_to_decimal(a);
@@ -93,128 +430,176 @@ START_TEST(add_7) {
     int exit_code = 0;
     exit_code = s21_add(number1, number2, &dec_result);
     dec_to_string(&dec_result, s21_result);
-    char result[BUF] = "7922816252578";
     ck_assert_str_eq(result, s21_result);
     ck_assert_int_eq(exit_code, 0);
 }
 END_TEST
-//
-//  // Добавить тест add_6 cо сложением положительного и отрицательного числа
-//
-START_TEST(add_9) {
- char s21_result[BUF] = {'\0'};
- char *a = "7922.8166";
- char *b = "1.152";
- s21_decimal number1 = {0};
- s21_decimal number2 = {0};
- number1 = char_to_decimal(a);
- number2 = char_to_decimal(b);
- s21_decimal dec_result = {0};
- int exit_code = 0;
- exit_code = s21_add(number1, number2, &dec_result);
- dec_to_string(&dec_result, s21_result);
- char result[BUF] = "7923.9686";
- ck_assert_str_eq(result, s21_result);
- ck_assert_int_eq(exit_code, 0);
+
+START_TEST(add_25) {
+    // RESULT до округления -3961404165713216870.322801867
+    char s21_result[BUF] = {'\0'};
+    char *a = "3960000000009.6771975167";
+    char *b = "-3961408125713216879.9999993837";
+    char *result = "-3961404165713216870.322801867";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
 }
 END_TEST
 
-START_TEST(add_10) {
- char s21_result[BUF] = {'\0'};
- char *a = "7922.816615";
- char *b = "0.1523";
- s21_decimal number1 = {0};
- s21_decimal number2 = {0};
- number1 = char_to_decimal(a);
- number2 = char_to_decimal(b);
- s21_decimal dec_result = {0};
- int exit_code = 0;
- exit_code = s21_add(number1, number2, &dec_result);
- dec_to_string(&dec_result, s21_result);
- char result[BUF] = "7922.968915";
- ck_assert_str_eq(result, s21_result);
- ck_assert_int_eq(exit_code, 0);
+START_TEST(add_26) {
+    // RESULT до округления -3961404165713216870.322801867
+    char s21_result[BUF] = {'\0'};
+    char *a = "9.6771975167";
+    char *b = "-396125713216879.9999993837";
+    char *result = "-3961404165713216870.322801867";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
 }
 END_TEST
 
-START_TEST(add_11) {
- char s21_result[BUF] = {'\0'};
- char *a = "0.9614081257132168796771975167";// 28 знаков
- char *b = "0.05"; // 2 знака
- s21_decimal number1 = {0};
- s21_decimal number2 = {0};
- number1 = char_to_decimal(a);
- number2 = char_to_decimal(b);
- char a_1[BUF] = {'\0'};
- char b_1[BUF] = {'\0'};
- dec_to_string(&number1, a_1);
- dec_to_string(&number2, b_1);
- s21_decimal dec_result = {0};
- int exit_code = 0;
- exit_code = s21_add(number1, number2, &dec_result);
- dec_to_string(&dec_result, s21_result);
- char result[BUF] = "1.0114081257132168796771975167";
- ck_assert_str_eq(result, s21_result);
- ck_assert_int_eq(exit_code, 0);
+START_TEST(add_27) {
+    // RESULT до округления 0.9999993836993
+    char s21_result[BUF] = {'\0'};
+    char *a = "-0.0000000000007";
+    char *b = "0.9999993837";
+    char *result = "0.9999993836993";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
 }
 END_TEST
 
-// // START_TEST(add_11) {
-// //     // char s21_result[BUF] = {'\0'};
-// //     // 0011 0011 0011 0011 0011 0100 0000 0000 00000000000000000000000000000000
-// //     char *a = "0.9614081257132168796771975167";// 28 знаков
-// //     char *b = "0.05"; // 2 знака
-// //     s21_decimal number1 = {0};
-// //     s21_decimal number2 = {0};
-// //     number1 = char_to_decimal(a);
-// //     number2 = char_to_decimal(b);
-// //     bit_output(&number1);
-// //     printf("A: %s\nB: %s\n", a, b);
-// //     char a_1[BUF] = {'\0'};
-// //     char b_1[BUF] = {'\0'};
-// //     dec_to_string(&number1, a_1);
-// //     dec_to_string(&number2, b_1);
-// //     printf("\n\nA_AFTER: %s\nB_AFTER: %s\n\n", a_1, b_1);
-// //     // s21_decimal dec_result = {0};
-// //     // int exit_code = 0;
-// //     // exit_code = s21_add(number1, number2, &dec_result);
-// //     // dec_to_string(&dec_result, s21_result);
-// //     // char result[BUF] = "1.6345632502852867518708790067";
-// //     // ck_assert_str_eq(result, s21_result);
-// //     // ck_assert_int_eq(exit_code, 0);
-// // }
-// // END_TEST
-//
-//
-Suite * sprintf_test(void) {
-    Suite *s;
-    TCase *tc_add;
+START_TEST(add_28) {
+    // RESULT до округления 0.9999938369999999999999999995
+    char s21_result[BUF] = {'\0'};
+    char *a = "-0.0000000000000000000000000007";
+    char *b = "0.9999938370000000000000000002";
+    char *result = "0.9999938369999999999999999995";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
 
-    s = suite_create("s21_add");
+START_TEST(add_29) {
+    // RESULT до округления -0.99369999999999999999995
+    char s21_result[BUF] = {'\0'};
+    char *a = "0.00000000000000000000007";
+    char *b = "-0.99370000000000000000002";
+    char *result = "-0.99369999999999999999995";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
 
-    tc_add = tcase_create("s21_add");
-    tcase_add_test(tc_add, add_1);
-    tcase_add_test(tc_add, add_2);
-    tcase_add_test(tc_add, add_3);
-    tcase_add_test(tc_add, add_4);
-    tcase_add_test(tc_add, add_5);
-    tcase_add_test(tc_add, add_7);
-    tcase_add_test(tc_add, add_9);
-    tcase_add_test(tc_add, add_10);
-    tcase_add_test(tc_add, add_11);
-    suite_add_tcase(s, tc_add);
+START_TEST(add_30) {
+    // RESULT до округления -0.3092029384717792139871242
+    char s21_result[BUF] = {'\0'};
+    char *a = "0.12233445511223344552255";
+    char *b = "-0.3092029384717792139871242";
+    char *result = "-0.1868684833595457684645742";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_add(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
 
-    return s;
+
+
+Suite *sprintf_test(void) {
+  Suite *s;
+  TCase *tc_add;
+
+  s = suite_create("s21_add");
+
+  tc_add = tcase_create("s21_add");
+  tcase_add_test(tc_add, add_1);
+  tcase_add_test(tc_add, add_2);
+  tcase_add_test(tc_add, add_3);
+  tcase_add_test(tc_add, add_4);
+  tcase_add_test(tc_add, add_5);
+  tcase_add_test(tc_add, add_6);
+  tcase_add_test(tc_add, add_7);
+  tcase_add_test(tc_add, add_8);
+  tcase_add_test(tc_add, add_9);
+  tcase_add_test(tc_add, add_10);
+  tcase_add_test(tc_add, add_11);
+  tcase_add_test(tc_add, add_13);
+  tcase_add_test(tc_add, add_14);
+  tcase_add_test(tc_add, add_15);
+  tcase_add_test(tc_add, add_16);
+  tcase_add_test(tc_add, add_17);
+  tcase_add_test(tc_add, add_18);
+  tcase_add_test(tc_add, add_19);
+  tcase_add_test(tc_add, add_20);
+  tcase_add_test(tc_add, add_21);
+  tcase_add_test(tc_add, add_22);
+  tcase_add_test(tc_add, add_23);
+  tcase_add_test(tc_add, add_24);
+  tcase_add_test(tc_add, add_25);
+  tcase_add_test(tc_add, add_26);
+  tcase_add_test(tc_add, add_27);
+  tcase_add_test(tc_add, add_28);
+  tcase_add_test(tc_add, add_29);
+  tcase_add_test(tc_add, add_30);
+  suite_add_tcase(s, tc_add);
+
+  return s;
 }
 
 int main() {
-    int number_failed;
-    Suite *s;
-    SRunner *sr;
-    s = sprintf_test();
-    sr = srunner_create(s);
-    srunner_run_all(sr, CK_NORMAL);
-    number_failed = srunner_ntests_failed(sr);
-    srunner_free(sr);
-    return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
+  int number_failed;
+  Suite *s;
+  SRunner *sr;
+  s = sprintf_test();
+  sr = srunner_create(s);
+  srunner_run_all(sr, CK_NORMAL);
+  number_failed = srunner_ntests_failed(sr);
+  srunner_free(sr);
+  return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
