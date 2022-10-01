@@ -395,6 +395,25 @@ START_TEST(mul_23) {
 }
 END_TEST
 
+// Умножение двух отрицательных чисел
+START_TEST(mul_24) {
+    char s21_result[BUF] = {'\0'};
+    char *a = "-158456325036.52867518708790067";
+    char *b = "-5123332441.113332";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_mul(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    char result[BUF] = "811824430559246043841.7990536";
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
 
 Suite * sprintf_test(void) {
     Suite *s;
@@ -426,6 +445,7 @@ Suite * sprintf_test(void) {
     tcase_add_test(tc_mul, mul_21);
     tcase_add_test(tc_mul, mul_22);
     tcase_add_test(tc_mul, mul_23);
+    tcase_add_test(tc_mul, mul_24);
     suite_add_tcase(s, tc_mul);
 
     return s;
