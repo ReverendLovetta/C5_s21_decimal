@@ -130,8 +130,6 @@ int bank_round(char *string_of_number, int sign);
 // temp_dec
 char *remove_dot(char *dec, char *temp_dec);
 
-/*****************************************************
- * Вспомогательные функции для s21_sub()
- ****************************************************/
+void slozhenie(s21_decimal *dst, int exponent);
 
 #endif  // SRC_S21_DECIMAL_H_

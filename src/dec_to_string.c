@@ -47,22 +47,6 @@ int dec_to_string(s21_decimal *a, char *main_result) {
   return EXIT_SUCCESS;
 }
 
-// Умножение строки на 2
-int mult_by_2(char *a, char *result) {
-  int carry = 0;
-  int interm = 0;
-  size_t i = 0;
-  for (; i < strlen(a); i++) {
-    if ((interm = ((a[i] - '0') * 2 + carry)) > 9) {
-      carry = (interm - interm % 10) / 10;
-    }
-    result[i] = interm % 10 + 48;
-    if (interm < 10) carry = 0;
-  }
-  if (carry > 0) result[i] = carry + 48;
-  return EXIT_SUCCESS;
-}
-
 // Возведение строки в степень degree
 int exp_string(char *result, int degree) {
   result[0] = '2';
