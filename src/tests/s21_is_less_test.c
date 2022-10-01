@@ -189,6 +189,53 @@ START_TEST(less_12) {
 }
 END_TEST
 
+START_TEST(less_13) {
+  s21_decimal d = {0};
+  s21_decimal d1 = {0};
+  d.bits[0] = 2000;
+  d.bits[1] = 0;
+  d.bits[2] = 0;
+  zapis_stepeni_v_decimal(2, &d);
+  d1.bits[0] = 20;
+  d1.bits[1] = 0;
+  d1.bits[2] = 0;
+  zapis_stepeni_v_decimal(0, &d1);
+  ck_assert_int_eq(s21_is_less(d, d1), 0);
+}
+END_TEST
+
+START_TEST(less_14) {
+  s21_decimal d = {0};
+  s21_decimal d1 = {0};
+  d.bits[0] = 20;
+  d.bits[1] = 0;
+  d.bits[2] = 0;
+  zapis_stepeni_v_decimal(0, &d);
+  d1.bits[0] = 2001;
+  d1.bits[1] = 0;
+  d1.bits[2] = 0;
+  zapis_stepeni_v_decimal(2, &d1);
+  ck_assert_int_eq(s21_is_less(d, d1), 1);
+}
+END_TEST
+
+START_TEST(less_15) {
+  s21_decimal d = {0};
+  s21_decimal d1 = {0};
+  d.bits[0] = 20;
+  d.bits[1] = 0;
+  d.bits[2] = 0;
+  d.bits[3] |= SIGN;
+  zapis_stepeni_v_decimal(0, &d);
+  d1.bits[0] = 2001;
+  d1.bits[1] = 0;
+  d1.bits[2] = 0;
+  d1.bits[3] |= SIGN;
+  zapis_stepeni_v_decimal(2, &d1);
+  ck_assert_int_eq(s21_is_less(d, d1), 0);
+}
+END_TEST
+
 Suite *sprintf_test(void) {
   Suite *s;
   TCase *tc_is_less;
@@ -208,6 +255,9 @@ Suite *sprintf_test(void) {
   tcase_add_test(tc_is_less, less_10);
   tcase_add_test(tc_is_less, less_11);
   tcase_add_test(tc_is_less, less_12);
+  tcase_add_test(tc_is_less, less_13);
+  tcase_add_test(tc_is_less, less_14);
+  tcase_add_test(tc_is_less, less_15);
   suite_add_tcase(s, tc_is_less);
 
   return s;

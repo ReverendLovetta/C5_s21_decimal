@@ -10,8 +10,36 @@ int s21_is_not_equal(s21_decimal src, s21_decimal dst) {
   if (src.bits[0] == 0 && src.bits[1] == 0 && src.bits[2] == 0 &&
       dst.bits[0] == 0 && dst.bits[1] == 0 && dst.bits[2] == 0) {
   } else {
-    if (strcmp(d, d1) != 0) {
-      status = 1;
+    char *ukaz_first = d;
+    char *ukaz_second = d1;
+    while (*ukaz_first != '\0' && *ukaz_second != '\0') {
+      if (*ukaz_first != *ukaz_second) {
+        status = 1;
+        break;
+      }
+      ukaz_first++;
+      ukaz_second++;
+    }
+    char *ukaz_tmp = NULL;
+    if (*ukaz_first != '\0' || *ukaz_second != '\0') {
+      if (*ukaz_first == '\0') {
+        ukaz_tmp = ukaz_second;
+      } else {
+        ukaz_tmp = ukaz_first;
+      }
+      if (*ukaz_tmp == '.') {
+        ukaz_tmp++;
+        while (*ukaz_tmp != '\0') {
+          if (*ukaz_tmp != '0') {
+            status = 1;
+            break;
+          }
+          ukaz_tmp++;
+          status = 0;
+        }
+      }
+    } else {
+      status = 0;
     }
   }
   return status;
