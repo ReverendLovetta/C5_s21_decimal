@@ -31,7 +31,7 @@ void slozhenie(s21_decimal *dst, int exponent) {
 
 // Обрабатывает если флот содержит меньше 8 цифр
 void obrabotka_chisel_menshe_vosmi(s21_decimal *dst, s21_decimal tmp,
-                                   s21_decimal tmp1) {
+                                   s21_decimal tmp1, char *float_string) {
   int count = 0;
   int i = 2;
   int flag = 0;
@@ -144,7 +144,7 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
     } else if (strlen(float_string) <= 7 && float_string[0] != '0') {
       *dst = char_to_decimal(float_string);
     } else if (float_string[0] == '0' && float_string[1] == '.') {
-      obrabotka_chisel_menshe_vosmi(dst, tmp, tmp1)
+      obrabotka_chisel_menshe_vosmi(dst, tmp, tmp1, float_string);
     }
     if (minus_flag == 1) {
       dst->bits[3] |= SIGN;
@@ -155,15 +155,15 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
   return status;
 }
 
-int main() {
-  s21_decimal d = {0};
-  char result[1024];
-  float b = -1241245125.78935186725;
-  s21_from_float_to_decimal(b, &d);
-  dec_to_string(&d, result);
-  printf("nast=%7f=float\n", b);
-  printf("result=%s\n", result);
-  return 0;
-}
+// int main() {
+//   s21_decimal d = {0};
+//   char result[1024];
+//   float b = -1241245125.78935186725;
+//   s21_from_float_to_decimal(b, &d);
+//   dec_to_string(&d, result);
+//   printf("nast=%7f=float\n", b);
+//   printf("result=%s\n", result);
+//   return 0;
+// }
 
 // 123.4567 123.290184 12382901.4

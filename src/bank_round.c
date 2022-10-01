@@ -104,30 +104,47 @@ int bank_round(char *str, int sign) {
   return result;
 }
 
-void plus_step(s21_decimal *dst, int exponent) {
-  if (exponent >= 64) {
-    if ((dst->bits[2] & 1 << (exponent - 64)) == 0) {
-      dst->bits[2] |= 1 << (exponent - 64);
-    } else {
-      dst->bits[2] -= pow(2, (exponent - 64));
-      exponent += 1;
-      plus_step(dst, exponent);
+int my_round(char *str, int sign) {
+  int result = 0;
+  char temp[BUF] = {'\0'};
+  temp[0] = '1';  // Число которое мы будем прибавлять к str для округления
+  size_t last_pos = 29;  // Максимальное количество цифр в str
+  // Если первые 29 символов в str больше эталона, то сокращаем строку на 1
+  // элемент
+  if (compare_str(str, sign) == 1) last_pos--;
+  int max_dec_flag = 0;
+  // Если число из 29 знаков, сверяем с максимальным значением decimal
+  // Если дробную часть можно сократить, то порядковый номер последнего элемента
+  // уменьшается
+  if (strlen(str) == last_pos) {
+    max_dec_flag = compare_str(str, sign);
+    if (max_dec_flag != 0) {
+      last_pos--;
     }
-  } else if (exponent >= 32) {
-    if ((dst->bits[1] & 1 << (exponent - 32)) == 0) {
-      dst->bits[1] |= 1 << (exponent - 32);
-    } else {
-      dst->bits[1] -= pow(2, (exponent - 32));
-      exponent += 1;
-      plus_step(dst, exponent);
-    }
-  } else {
-    if ((dst->bits[0] & 1 << exponent) == 0) {
-      dst->bits[0] |= 1 << exponent;
-    } else {
-      dst->bits[0] -= pow(2, exponent);
-      exponent += 1;
-      plus_step(dst, exponent);
+  }
+  if (strlen(str) > last_pos) {
+    if (str[last_pos] == '5') {
+      if (((str[last_pos - 1] - '0') % 2) == 0) {
+        // Если 28 элемент чётный (счёт с 0), то значение отбрасывается
+        // Завершаем строку
+        str[last_pos] = '\0';
+      } else {
+        str[last_pos] = '\0';
+        revers(str, (int)strlen(str));
+        summ_two_string(str, temp, str);
+        revers(str, (int)strlen(str));
+      }
+    } else if (str[last_pos] < '5') {
+      str[last_pos] =
+          '\0';  // Зануляем последний элемент при отбрасывании остатка
+    } else if (str[last_pos] > '5') {
+      // Перезаписываем все элементы массива после last_pos знака
+      for (size_t i = last_pos; i < BUF; i++) {
+        str[i] = '\0';
+      }
+      revers(str, (int)strlen(str));
+      summ_two_string(str, temp, str);
+      revers(str, (int)strlen(str));
     }
   }
   // Округлённое число ещё раз проверяем с эталоном
@@ -138,7 +155,6 @@ void plus_step(s21_decimal *dst, int exponent) {
   return result;
 }
 
-<<<<<<< HEAD
 // Посимвольно проверяем строку с максимальным decimal.
 // Если число такое же, то идём на следующую итерацию.
 // Если число меньше, чем значение эталона, то завершаем цикл
@@ -160,43 +176,6 @@ int compare_str(char *temp, int sign) {
         result = LARGE;
       else if (sign == 1) {
         result = SMALL;
-=======
-void bank_round(char *string_of_number) {
-  if (string_of_number != NULL) {
-    char *ukaz = string_of_number;
-    while (1) {
-      if (*ukaz == '\0') {
-        break;
-      }
-      if (*ukaz == '.') {
-        if (*(ukaz + 1) >= '5') {
-          int number_before_dot = *(ukaz - 1) - '\0';
-          int flag = 0;
-          if (*(ukaz + 1) == '5') {
-            ukaz += 1;
-            while (*(ukaz + 1) != '\0') {
-              if (*(ukaz + 1) != '0') {
-                flag = 1;
-                break;
-              }
-            }
-          }
-          if (flag == 1 || (flag == 0 && number_before_dot % 2 != 0)) {
-            my_truncate(string_of_number);
-            s21_decimal result_number = {0};
-            result_number = char_to_decimal(string_of_number);
-            plus_step(&result_number, 0);
-            dec_to_string(&result_number, string_of_number);
-          } else {
-            if (number_before_dot % 2 == 0) {
-              my_truncate(string_of_number);
-            }
-          }
-        } else {
-          my_truncate(string_of_number);
-        }
-        break;
->>>>>>> исправил функцию сравнения дописал флот ту децимал осталось протестировать
       }
       break;
     }
