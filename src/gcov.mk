@@ -30,23 +30,23 @@ INCL_LIB = -L.
 all: $(SRC_OBJS) $(EXEC_GCOV) execute build_report
 
 $(EXEC_GCOV): %.out: %.o $(TEST_OBJS)
-	$(CC) $(TEST_DIR)/$< $(SRC_DIR)/*.o -o $(TEST_DIR)/$@ $(CHECK_FLAGS) $(GCOV_FLAGS)
+	$(CC) $(TEST_DIR)/$< ./gcov/*.o -o $(TEST_DIR)/$@ $(CHECK_FLAGS) $(GCOV_FLAGS)
 	
 $(TEST_OBJS): %.o : $(TEST_DIR)/%.c
 	$(CC) $(CFLAGS) -o $(TEST_DIR)/$@ -c $< $(GCOV_FLAGS)
 
 $(SRC_OBJS): %.o : $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) -o $(SRC_DIR)/$@ -c $< $(GCOV_FLAGS)
+	$(CC) $(CFLAGS) -o ./gcov/$@ -c $< $(GCOV_FLAGS)
 
 execute: $(EXEC_GCOV)
-	@for test in $^; do \
+	@for test in ./gcov/$^; do \
 		./tests/$${test}; \
 		echo; \
 	done
 
 build_report:
-	@gcov $(TEST_DIR)/*.c $(SRC_DIR)/*.c
-	@lcov --capture --directory $(TEST_DIR) --directory $(SRC_DIR) --output-file cover.info
+	@gcov $(TEST_DIR)/*.c $(SRC_DIR)/*.c -n
+	@lcov --capture --directory $(TEST_DIR) --directory ./gcov --output-file cover.info
 	@genhtml cover.info --output-directory OUT
 	@$(browser) ./OUT/index.html
 
