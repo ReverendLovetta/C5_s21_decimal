@@ -1,5 +1,33 @@
 #include "./s21_decimal.h"
 
+void slozhenie(s21_decimal *dst, int exponent) {
+  if (exponent >= 64) {
+    if ((dst->bits[2] & 1 << (exponent - 64)) == 0) {
+      dst->bits[2] |= 1 << (exponent - 64);
+    } else {
+      dst->bits[2] -= pow(2, (exponent - 64));
+      exponent += 1;
+      slozhenie(dst, exponent);
+    }
+  } else if (exponent >= 32) {
+    if ((dst->bits[1] & 1 << (exponent - 32)) == 0) {
+      dst->bits[1] |= 1 << (exponent - 32);
+    } else {
+      dst->bits[1] -= pow(2, (exponent - 32));
+      exponent += 1;
+      slozhenie(dst, exponent);
+    }
+  } else {
+    if ((dst->bits[0] & 1 << exponent) == 0) {
+      dst->bits[0] |= 1 << exponent;
+    } else {
+      dst->bits[0] -= pow(2, exponent);
+      exponent += 1;
+      slozhenie(dst, exponent);
+    }
+  }
+}
+
 // void slozhenie(s21_decimal *dst, int exponent) {
 //   if ((exponent - 127) >= 64) {
 //     if ((dst->bits[2] & 1 << (exponent - 127 - 64)) == 0) {
@@ -28,35 +56,6 @@
 //     }
 //   }
 // }
-//
-
-void slozhenie(s21_decimal *dst, int exponent) {
-  if (exponent >= 64) {
-    if ((dst->bits[2] & 1 << (exponent - 64)) == 0) {
-      dst->bits[2] |= 1 << (exponent - 64);
-    } else {
-      dst->bits[2] -= pow(2, (exponent - 64));
-      exponent += 1;
-      slozhenie(dst, exponent);
-    }
-  } else if (exponent >= 32) {
-    if ((dst->bits[1] & 1 << (exponent - 32)) == 0) {
-      dst->bits[1] |= 1 << (exponent - 32);
-    } else {
-      dst->bits[1] -= pow(2, (exponent - 32));
-      exponent += 1;
-      slozhenie(dst, exponent);
-    }
-  } else {
-    if ((dst->bits[0] & 1 << exponent) == 0) {
-      dst->bits[0] |= 1 << exponent;
-    } else {
-      dst->bits[0] -= pow(2, exponent);
-      exponent += 1;
-      slozhenie(dst, exponent);
-    }
-  }
-}
 
 void perezapis_decimal(s21_decimal *src, s21_decimal *dst, int *exponent) {
   int step_mant = *exponent - 150;
