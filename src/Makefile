@@ -73,6 +73,7 @@ clean:
 	@find . -name "*.gcno" -exec rm -f {} \;
 	@rm -rf OUT
 	@rm -f cover.info
+	@rm -rf gcov
 	@echo "Cleaning..."
 	@echo "Operation complete :)"
 

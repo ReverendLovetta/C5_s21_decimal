@@ -27,6 +27,8 @@ EXEC_GCOV = $(TEST_OBJS:%.o=%.out)
 LIB_NAME = s21_decimal.a
 INCL_LIB = -L.
 
+DIR = gcov
+
 all: $(SRC_OBJS) $(EXEC_GCOV) execute build_report
 
 $(EXEC_GCOV): %.out: %.o $(TEST_OBJS)
@@ -36,6 +38,7 @@ $(TEST_OBJS): %.o : $(TEST_DIR)/%.c
 	$(CC) $(CFLAGS) -o $(TEST_DIR)/$@ -c $< $(GCOV_FLAGS)
 
 $(SRC_OBJS): %.o : $(SRC_DIR)/%.c
+	@if [ ! -d $(DIR) ] ; then mkdir gcov; fi
 	$(CC) $(CFLAGS) -o ./gcov/$@ -c $< $(GCOV_FLAGS)
 
 execute: $(EXEC_GCOV)
