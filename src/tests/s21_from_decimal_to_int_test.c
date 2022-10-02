@@ -156,6 +156,33 @@ START_TEST(decimal_to_int_8) {
 }
 END_TEST
 
+// Число слишком велико. Ошибка конвертации
+START_TEST(decimal_to_int_9) {
+  char *a = "7922816.2514264337593543950335";
+  int fn_returned = 0;
+  int result = 0;
+  s21_decimal number = {0};
+  number = char_to_decimal(a);
+  fn_returned = s21_from_decimal_to_int(number, &result);
+  ck_assert_int_eq(result, 7922816);
+  ck_assert_int_eq(fn_returned, 0);
+}
+END_TEST
+
+// Число слишком велико. Ошибка конвертации
+START_TEST(decimal_to_int_10) {
+  char *a = "79228162514264337593543950335";
+  int fn_returned = 0;
+  int *result = NULL;
+  s21_decimal number = {0};
+  number = char_to_decimal(a);
+  fn_returned = s21_from_decimal_to_int(number, result);
+  ck_assert_int_eq(fn_returned, 1);
+}
+END_TEST
+
+
+
 Suite *sprintf_test(void) {
   Suite *s;
   TCase *tc_decimal_to_int;
@@ -171,6 +198,8 @@ Suite *sprintf_test(void) {
   tcase_add_test(tc_decimal_to_int, decimal_to_int_6);
   tcase_add_test(tc_decimal_to_int, decimal_to_int_7);
   tcase_add_test(tc_decimal_to_int, decimal_to_int_8);
+  tcase_add_test(tc_decimal_to_int, decimal_to_int_9);
+  tcase_add_test(tc_decimal_to_int, decimal_to_int_10);
   suite_add_tcase(s, tc_decimal_to_int);
 
   return s;

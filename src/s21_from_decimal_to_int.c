@@ -2,6 +2,8 @@
 #include "s21_decimal.h"
 
 int s21_from_decimal_to_int(s21_decimal src, int *dst) {
+  if (dst == NULL)
+    return 1;
   char d[1024];
   dec_to_string(&src, d);
   *dst = atoi(d);
