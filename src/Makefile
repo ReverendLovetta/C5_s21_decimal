@@ -53,7 +53,7 @@ s21_decimal.a: $(LIB_OBJS)
 test: s21_decimal.a build
 
 build: $(TEST_EXEC)
-	@for test in ./bin/$^; do \
+	@for test in $^; do \
 		./bin/$${test}; \
 		echo; \
 	done
