@@ -35,7 +35,7 @@ $(EXEC_GCOV): %.out: %.o $(TEST_OBJS)
 	$(CC) $(TEST_DIR)/$< ./gcov/*.o -o $(TEST_DIR)/$@ $(CHECK_FLAGS) $(GCOV_FLAGS)
 	
 $(TEST_OBJS): %.o : $(TEST_DIR)/%.c
-	$(CC) $(CFLAGS) -o $(TEST_DIR)/$@ -c $< $(GCOV_FLAGS)
+	$(CC) $(CFLAGS) -o $(TEST_DIR)/$@ -c $< 
 
 $(SRC_OBJS): %.o : $(SRC_DIR)/%.c
 	@if [ ! -d $(DIR) ] ; then mkdir gcov; fi
