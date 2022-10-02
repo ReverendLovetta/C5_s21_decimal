@@ -414,6 +414,158 @@ START_TEST(mul_24) {
 }
 END_TEST
 
+// Умножение положительного 0 на положительный 0
+START_TEST(mul_25) {
+    char s21_result[BUF] = {'\0'};
+    char *a = "0";
+    char *b = "0";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_mul(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    char result[BUF] = "0";
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+// Умножение положительного 0 на отрицательный 0
+START_TEST(mul_26) {
+    char s21_result[BUF] = {'\0'};
+    char *a = "0";
+    char *b = "-0";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_mul(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    char result[BUF] = "-0";
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+// Умножение отрицательного 0 на положительный 0
+START_TEST(mul_27) {
+    char s21_result[BUF] = {'\0'};
+    char *a = "-0";
+    char *b = "0";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_mul(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    char result[BUF] = "-0";
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+// Умножение отрицательного 0 на отрицательный 0
+START_TEST(mul_28) {
+    char s21_result[BUF] = {'\0'};
+    char *a = "-0";
+    char *b = "-0";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_mul(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    char result[BUF] = "0";
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+// Умножение положительного числа на положительный 0
+START_TEST(mul_29) {
+    char s21_result[BUF] = {'\0'};
+    char *a = "144528.2858581";
+    char *b = "0";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_mul(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    char result[BUF] = "0";
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+// Умножение положительного числа на отрицательный 0
+START_TEST(mul_30) {
+    char s21_result[BUF] = {'\0'};
+    char *a = "3993858717.19857";
+    char *b = "-0";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_mul(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    char result[BUF] = "-0";
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+// Умножение отрицательного числа на положительный 0
+START_TEST(mul_31) {
+    char s21_result[BUF] = {'\0'};
+    char *a = "-0.39939587265";
+    char *b = "0";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_mul(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    char result[BUF] = "-0";
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
+// Умножение отрицательного числа на отрицательный 0
+START_TEST(mul_32) {
+    char s21_result[BUF] = {'\0'};
+    char *a = "-3999383757.1982754";
+    char *b = "-0";
+    s21_decimal number1 = {0};
+    s21_decimal number2 = {0};
+    number1 = char_to_decimal(a);
+    number2 = char_to_decimal(b);
+    s21_decimal dec_result = {0};
+    int exit_code = 0;
+    exit_code = s21_mul(number1, number2, &dec_result);
+    dec_to_string(&dec_result, s21_result);
+    char result[BUF] = "0";
+    ck_assert_str_eq(result, s21_result);
+    ck_assert_int_eq(exit_code, 0);
+}
+END_TEST
+
 
 Suite * sprintf_test(void) {
     Suite *s;
@@ -446,6 +598,14 @@ Suite * sprintf_test(void) {
     tcase_add_test(tc_mul, mul_22);
     tcase_add_test(tc_mul, mul_23);
     tcase_add_test(tc_mul, mul_24);
+    tcase_add_test(tc_mul, mul_25);
+    tcase_add_test(tc_mul, mul_26);
+    tcase_add_test(tc_mul, mul_27);
+    tcase_add_test(tc_mul, mul_28);
+    tcase_add_test(tc_mul, mul_29);
+    tcase_add_test(tc_mul, mul_30);
+    tcase_add_test(tc_mul, mul_31);
+    tcase_add_test(tc_mul, mul_32);
     suite_add_tcase(s, tc_mul);
 
     return s;

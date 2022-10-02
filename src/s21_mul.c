@@ -61,8 +61,6 @@ int mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result,
   int shift1 = digits_aft_dot(dec1) - 1;
   int shift2 = digits_aft_dot(dec2) - 1;
   int offset_sum = shift_sum(shift1, shift2);
-  // printf("shift1: %d\nshift2: %d\noffset_sum: %d\n",
-  //         shift1, shift2, offset_sum);
   char temp_dec1[BUF] = {'\0'};
   char temp_dec2[BUF] = {'\0'};
   // Убираем точку и копируем строки во временный масив
@@ -85,10 +83,22 @@ int mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result,
 
   // Ещё раз переворачиваем строку
   revers(res, (int)strlen(res));
-  // // Округляем результат
+  //  Округляем результат
   mul_result = bank_round(res, sign);
 
-  *result = char_to_decimal(res);
+  // Если результат умножения только из нулей, то оставляем только один 0
+  int j = 0;
+  for (int i = 0; i < (int)strlen(res); i++) {
+    if (res[i] != '0')
+      j = 1;
+  }
+  if (j == 0 && res[0] != '\0') {
+    res[1] = '\0';
+    mul_result = 0;
+  }
+
+  if (mul_result == 0)
+    *result = char_to_decimal(res);
   return mul_result;
 }
 
