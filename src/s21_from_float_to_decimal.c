@@ -51,14 +51,14 @@ void obrabotka_chisel_menshe_vosmi(s21_decimal *dst, s21_decimal tmp,
   }
   tmp = char_to_decimal(float_string);
   tmp1 = tmp;
-  if (count <= 7) {
-  } else {
-    float_string[i] = '\0';
-    if (vosmoy_symbol >= '5') {
-      slozhenie(&tmp1, 0);
-    }
+  char result[BUF];
+  float_string[i] = '\0';
+  tmp1 = char_to_decimal(float_string);
+  if (vosmoy_symbol >= '5') {
+    slozhenie(&tmp1, 0);
   }
-  *dst = char_to_decimal(float_string);
+  dec_to_string(&tmp1, result);
+  *dst = char_to_decimal(result);
 }
 
 // Обрабатывает если флот содержит больше 8 цифр
@@ -137,12 +137,9 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
     char float_string[1024];
     char result[1024];
     sprintf(float_string, "%.22f", src);
-    if (((strlen(float_string) > 8 && strchr(float_string, '.') != NULL) ||
-         (strlen(float_string) > 7 && strchr(float_string, '.') == NULL)) &&
+    if (strlen(float_string) > 8 && strchr(float_string, '.') != NULL &&
         float_string[0] != '0') {
       obrabotka_chisel_bolshe_vosmi(dst, tmp, tmp1, result, float_string);
-    } else if (strlen(float_string) <= 7 && float_string[0] != '0') {
-      *dst = char_to_decimal(float_string);
     } else if (float_string[0] == '0' && float_string[1] == '.') {
       obrabotka_chisel_menshe_vosmi(dst, tmp, tmp1, float_string);
     }

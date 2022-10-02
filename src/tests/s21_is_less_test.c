@@ -236,6 +236,104 @@ START_TEST(less_15) {
 }
 END_TEST
 
+START_TEST(less_16) {
+  s21_decimal d = {0};
+  s21_decimal d1 = {0};
+  d.bits[0] = 20;
+  d.bits[1] = 0;
+  d.bits[2] = 0;
+  zapis_stepeni_v_decimal(0, &d);
+  d1.bits[0] = 2001;
+  d1.bits[1] = 0;
+  d1.bits[2] = 0;
+  d1.bits[3] |= SIGN;
+  zapis_stepeni_v_decimal(2, &d1);
+  ck_assert_int_eq(s21_is_less(d, d1), 0);
+}
+END_TEST
+
+START_TEST(less_17) {
+  s21_decimal d = {0};
+  s21_decimal d1 = {0};
+  d.bits[0] = 20;
+  d.bits[1] = 0;
+  d.bits[2] = 0;
+  d.bits[3] |= SIGN;
+  zapis_stepeni_v_decimal(0, &d);
+  d1.bits[0] = 2001;
+  d1.bits[1] = 0;
+  d1.bits[2] = 0;
+  zapis_stepeni_v_decimal(2, &d1);
+  ck_assert_int_eq(s21_is_less(d, d1), 1);
+}
+END_TEST
+
+START_TEST(less_18) {
+  s21_decimal d = {0};
+  s21_decimal d1 = {0};
+  d.bits[0] = 2048;
+  d.bits[1] = 0;
+  d.bits[2] = 0;
+  d.bits[3] |= SIGN;
+  zapis_stepeni_v_decimal(2, &d);
+  d1.bits[0] = 2048;
+  d1.bits[1] = 0;
+  d1.bits[2] = 0;
+  d1.bits[3] |= SIGN;
+  zapis_stepeni_v_decimal(1, &d1);
+  ck_assert_int_eq(s21_is_less(d, d1), 0);
+}
+END_TEST
+
+START_TEST(less_19) {
+  s21_decimal d = {0};
+  s21_decimal d1 = {0};
+  d.bits[0] = 2038;
+  d.bits[1] = 0;
+  d.bits[2] = 0;
+  zapis_stepeni_v_decimal(2, &d);
+  d1.bits[0] = 2048;
+  d1.bits[1] = 0;
+  d1.bits[2] = 0;
+  zapis_stepeni_v_decimal(2, &d1);
+  ck_assert_int_eq(s21_is_less(d, d1), 1);
+}
+END_TEST
+
+START_TEST(less_20) {
+  s21_decimal d = {0};
+  s21_decimal d1 = {0};
+  d.bits[0] = 204000;
+  d.bits[1] = 0;
+  d.bits[2] = 0;
+  d.bits[3] |= SIGN;
+  zapis_stepeni_v_decimal(3, &d);
+  d1.bits[0] = 204;
+  d1.bits[1] = 0;
+  d1.bits[2] = 0;
+  d1.bits[3] |= SIGN;
+  zapis_stepeni_v_decimal(0, &d1);
+  ck_assert_int_eq(s21_is_less(d, d1), 0);
+}
+END_TEST
+
+START_TEST(less_21) {
+  s21_decimal d = {0};
+  s21_decimal d1 = {0};
+  d.bits[0] = 204001;
+  d.bits[1] = 0;
+  d.bits[2] = 0;
+  d.bits[3] |= SIGN;
+  zapis_stepeni_v_decimal(3, &d);
+  d1.bits[0] = 204;
+  d1.bits[1] = 0;
+  d1.bits[2] = 0;
+  d1.bits[3] |= SIGN;
+  zapis_stepeni_v_decimal(0, &d1);
+  ck_assert_int_eq(s21_is_less(d, d1), 1);
+}
+END_TEST
+
 Suite *sprintf_test(void) {
   Suite *s;
   TCase *tc_is_less;
@@ -258,6 +356,12 @@ Suite *sprintf_test(void) {
   tcase_add_test(tc_is_less, less_13);
   tcase_add_test(tc_is_less, less_14);
   tcase_add_test(tc_is_less, less_15);
+  tcase_add_test(tc_is_less, less_16);
+  tcase_add_test(tc_is_less, less_17);
+  tcase_add_test(tc_is_less, less_18);
+  tcase_add_test(tc_is_less, less_19);
+  tcase_add_test(tc_is_less, less_20);
+  tcase_add_test(tc_is_less, less_21);
   suite_add_tcase(s, tc_is_less);
 
   return s;

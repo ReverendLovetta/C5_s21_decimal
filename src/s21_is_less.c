@@ -10,8 +10,10 @@ int s21_is_less(s21_decimal src, s21_decimal dst) {
   dec_to_string(&dst, d1);
   if (src.bits[0] == 0 && src.bits[1] == 0 && src.bits[2] == 0 &&
       dst.bits[0] == 0 && dst.bits[1] == 0 && dst.bits[2] == 0) {
-  } else if ((checkbit(src.bits[3], 31)) == 0 && (dst.bits[3] &= SIGN) == 1) {
-  } else if ((checkbit(src.bits[3], 31)) == 1 && (dst.bits[3] &= SIGN) == 0) {
+  } else if ((checkbit(src.bits[3], 31)) == 0 &&
+             (checkbit(dst.bits[3], 31)) == 1) {
+  } else if ((checkbit(src.bits[3], 31)) == 1 &&
+             (checkbit(dst.bits[3], 31)) == 0) {
     status = 1;
   } else {
     char *ukaz_src = d;
@@ -27,7 +29,7 @@ int s21_is_less(s21_decimal src, s21_decimal dst) {
       ukaz_dst++;
     }
     if (chet_do_t_src < chet_do_t_dst) {
-      if (checkbit(src.bits[3], 31)) {
+      if (checkbit(src.bits[3], 31) == 1) {
         status = 0;
       } else {
         status = 1;

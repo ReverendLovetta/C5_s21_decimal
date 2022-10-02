@@ -219,6 +219,87 @@ START_TEST(greater_14) {
 }
 END_TEST
 
+START_TEST(greater_15) {
+  s21_decimal d = {0};
+  s21_decimal d1 = {0};
+  d.bits[0] = 2001;
+  d.bits[1] = 0;
+  d.bits[2] = 0;
+  zapis_stepeni_v_decimal(0, &d);
+  d1.bits[0] = 2001;
+  d1.bits[1] = 0;
+  d1.bits[2] = 0;
+  d1.bits[3] |= SIGN;
+  zapis_stepeni_v_decimal(0, &d1);
+  ck_assert_int_eq(s21_is_greater(d, d1), 1);
+}
+END_TEST
+
+START_TEST(greater_16) {
+  s21_decimal d = {0};
+  s21_decimal d1 = {0};
+  d.bits[0] = 2000;
+  d.bits[1] = 0;
+  d.bits[2] = 0;
+  zapis_stepeni_v_decimal(2, &d);
+  d1.bits[0] = 2001;
+  d1.bits[1] = 0;
+  d1.bits[2] = 0;
+  d1.bits[3] |= SIGN;
+  zapis_stepeni_v_decimal(2, &d1);
+  ck_assert_int_eq(s21_is_greater(d, d1), 1);
+}
+END_TEST
+
+START_TEST(greater_17) {
+  s21_decimal d = {0};
+  s21_decimal d1 = {0};
+  d.bits[0] = 20;
+  d.bits[1] = 0;
+  d.bits[2] = 0;
+  d.bits[3] |= SIGN;
+  zapis_stepeni_v_decimal(0, &d);
+  d1.bits[0] = 2000;
+  d1.bits[1] = 0;
+  d1.bits[2] = 0;
+  d1.bits[3] |= SIGN;
+  zapis_stepeni_v_decimal(2, &d1);
+  ck_assert_int_eq(s21_is_greater(d, d1), 0);
+}
+END_TEST
+
+START_TEST(greater_18) {
+  s21_decimal d = {0};
+  s21_decimal d1 = {0};
+  d.bits[0] = 2000;
+  d.bits[1] = 0;
+  d.bits[2] = 0;
+  zapis_stepeni_v_decimal(2, &d);
+  d1.bits[0] = 2001;
+  d1.bits[1] = 0;
+  d1.bits[2] = 0;
+  zapis_stepeni_v_decimal(2, &d1);
+  ck_assert_int_eq(s21_is_greater(d, d1), 0);
+}
+END_TEST
+
+START_TEST(greater_19) {
+  s21_decimal d = {0};
+  s21_decimal d1 = {0};
+  d.bits[0] = 20;
+  d.bits[1] = 0;
+  d.bits[2] = 0;
+  d.bits[3] |= SIGN;
+  zapis_stepeni_v_decimal(0, &d);
+  d1.bits[0] = 2001;
+  d1.bits[1] = 0;
+  d1.bits[2] = 0;
+  d1.bits[3] |= SIGN;
+  zapis_stepeni_v_decimal(2, &d1);
+  ck_assert_int_eq(s21_is_greater(d, d1), 1);
+}
+END_TEST
+
 Suite *sprintf_test(void) {
   Suite *s;
   TCase *tc_is_greater;
@@ -240,6 +321,11 @@ Suite *sprintf_test(void) {
   tcase_add_test(tc_is_greater, greater_12);
   tcase_add_test(tc_is_greater, greater_13);
   tcase_add_test(tc_is_greater, greater_14);
+  tcase_add_test(tc_is_greater, greater_15);
+  tcase_add_test(tc_is_greater, greater_16);
+  tcase_add_test(tc_is_greater, greater_17);
+  tcase_add_test(tc_is_greater, greater_18);
+  tcase_add_test(tc_is_greater, greater_19);
   suite_add_tcase(s, tc_is_greater);
 
   return s;

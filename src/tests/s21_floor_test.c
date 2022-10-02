@@ -115,6 +115,24 @@ START_TEST(floor_7) {
 }
 END_TEST
 
+START_TEST(floor_8) {
+  s21_decimal d = {0};
+  s21_decimal result = {0};
+  char result_true[] = "-18907912675552290406400";
+  char result_func[1024];
+  d.bits[0] = 2147483647;
+  d.bits[0] |= SIGN;
+  d.bits[1] = 2147483647;
+  d.bits[1] |= SIGN;
+  d.bits[2] = 10249;
+  d.bits[3] = SIGN;
+  zapis_stepeni_v_decimal(1, &d);
+  s21_floor(d, &result);
+  dec_to_string(&result, result_func);
+  ck_assert_str_eq(result_true, result_func);
+}
+END_TEST
+
 Suite *sprintf_test(void) {
   Suite *s;
   TCase *tc_floor;
@@ -129,6 +147,7 @@ Suite *sprintf_test(void) {
   tcase_add_test(tc_floor, floor_5);
   tcase_add_test(tc_floor, floor_6);
   tcase_add_test(tc_floor, floor_7);
+  tcase_add_test(tc_floor, floor_8);
   suite_add_tcase(s, tc_floor);
 
   return s;
