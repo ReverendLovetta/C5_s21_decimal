@@ -27,6 +27,8 @@ TEST_EXEC = $(TEST_OBJS:%.o=%.out)
 
 S21_DECIMAL = s21_decimal.a
 
+BIN = bin
+
 .PHONY: all
 
 
@@ -39,7 +41,8 @@ $(TEST_OBJS): %.o : $(TEST_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@ 
 
 $(TEST_EXEC): %.out: %.o $(TEST_OBJS)
-	$(CC) $< $(INCL_LIB) $(LIB_NAME) -o $@ $(CHECK_FLAGS)
+	@if [ ! -d $(BIN) ] ; then mkdir bin; fi
+	$(CC) $< $(INCL_LIB) $(LIB_NAME) -o ./bin/$@ $(CHECK_FLAGS)
 
 .PHONY: s21_decimal.a
 s21_decimal.a: $(LIB_OBJS) 
@@ -48,11 +51,10 @@ s21_decimal.a: $(LIB_OBJS)
 
 .PHONY: test
 test: s21_decimal.a build
-	@find . -name "*.out" -exec rm -f {} \;
 
 build: $(TEST_EXEC)
-	@for test in $^; do \
-		./$${test}; \
+	@for test in ./bin/$^; do \
+		./bin/$${test}; \
 		echo; \
 	done
 
@@ -64,6 +66,15 @@ gcov_report: clean
 sanitizer: clean_all
 	$(MAKE) -f sanit.mk
 
+.PHONY: valgrind
+valgrind: s21_decimal.a $(TEST_EXEC)
+	@if [ ! -d $(BIN) ] ; then mkdir bin; fi
+	@for test in ./bin/$^; do \
+    valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./bin/$${test} \
+		2> ./bin/$${test}.txt; \
+		echo; \
+	done
+
 .PHONY: clean
 clean:
 	@find . -name "*.o" -exec rm -f {} \;
@@ -71,9 +82,11 @@ clean:
 	@find . -name "*.gcov" -exec rm -f {} \;
 	@find . -name "*.gcda" -exec rm -f {} \;
 	@find . -name "*.gcno" -exec rm -f {} \;
+	@find . -name "*.txt" -exec rm -f {} \;
 	@rm -rf OUT
 	@rm -f cover.info
 	@rm -rf gcov
+	@rm -rf bin
 	@echo "Cleaning..."
 	@echo "Operation complete :)"
 
