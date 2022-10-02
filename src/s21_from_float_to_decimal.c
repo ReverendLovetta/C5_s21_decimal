@@ -161,7 +161,7 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
 //   float b = -1241245125.78935186725;
 //   s21_from_float_to_decimal(b, &d);
 //   dec_to_string(&d, result);
-//   printf("nast=%7f=float\n", b);
+//   printf("nast=%f=float\n", b);
 //   printf("result=%s\n", result);
 //   return 0;
 // }
