@@ -96,7 +96,7 @@ void setbit(unsigned int *value, const int position);
 
 // Функция, которая проверяет выставленный бит в конкретной позиции.
 // Возвращает 1, если искомый бит выствлен
-int checkbit(const int value, const int position);
+int checkbit(const unsigned int value, const unsigned int position);
 
 /*****************************************************
  * Операции для обработки чисел в виде строки
