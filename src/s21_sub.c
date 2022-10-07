@@ -2,13 +2,13 @@
 
 // Вспомогательные функции для s21_sub():_____________________________
 // Берем число по модулю
-void remove_sign(u_int32_t *val);
+void remove_sign_sub(u_int32_t *val);
 
 // Сравниваем модули чисел
 int compare_val(s21_decimal *val_1, s21_decimal *val_2);
 
 // Вычитание 2-х чисел через строки
-int sub_val(s21_decimal *val_1, s21_decimal *val_2, s21_decimal *res);
+int sub_val(s21_decimal val_1, s21_decimal val_2, s21_decimal *res);
 
 // Превращения числа в 0
 int result_0(s21_decimal *res);
@@ -33,13 +33,13 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 
   sign_1 = checkbit(value_1.bits[3], 31);
   sign_2 = checkbit(value_2.bits[3], 31);
-  remove_sign(&value_1.bits[3]);
-  remove_sign(&value_2.bits[3]);
+  remove_sign_sub(&value_1.bits[3]);
+  remove_sign_sub(&value_2.bits[3]);
   cmp = compare_val(&value_1, &value_2);
   check = sign_1 | sign_2 << 1 | cmp << 2;
   switch (check) {
     case 0b00000000: {
-      status = sub_val(&value_1, &value_2, result);
+      status = sub_val(value_1, value_2, result);
       break;
     }
     case 0b00000001: {
@@ -52,12 +52,12 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
       break;
     }
     case 0b00000011: {
-      status = sub_val(&value_1, &value_2, result);
+      status = sub_val(value_1, value_2, result);
       sign_0 = 1;
       break;
     }
     case 0b00000100: {
-      status = sub_val(&value_2, &value_1, result);
+      status = sub_val(value_2, value_1, result);
       sign_0 = 1;
       break;
     }
@@ -71,7 +71,7 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
       break;
     }
     case 0b00000111: {
-      status = sub_val(&value_2, &value_1, result);
+      status = sub_val(value_2, value_1, result);
       break;
     }
     case 0b00001000: {
@@ -102,7 +102,7 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
   return status;
 }
 
-void remove_sign(u_int32_t *val) { *val = *val & (~(1 << 31)); }
+void remove_sign_sub(u_int32_t *val) { *val = *val & (~(1 << 31)); }
 
 int compare_val(s21_decimal *val_1, s21_decimal *val_2) {
   int tmp = 0;
@@ -122,7 +122,7 @@ int result_0(s21_decimal *res) {
   return 0;
 }
 
-int sub(s21_decimal val1, s21_decimal val2, s21_decimal *res) {
+int sub_val(s21_decimal val1, s21_decimal val2, s21_decimal *res) {
   unsigned int exp1 = 0, exp2 = 0;
   int cmp = 0, status = 0;
   char str1[BUF] = {0}, str2[BUF] = {0}, str_r[BUF] = {0}, tmp[100] = {0},
@@ -132,8 +132,8 @@ int sub(s21_decimal val1, s21_decimal val2, s21_decimal *res) {
   int len1 = 0, len2 = 0;
 
   for (unsigned int i = 16; i < 21; i++) {
-    exp1 |= (unsigned int)checkbit(val1.bits[3], i);
-    exp2 |= (unsigned int)checkbit(val2.bits[3], i);
+    exp1 |= ((unsigned int)checkbit(val1.bits[3], i) << (i - 16));
+    exp2 |= ((unsigned int)checkbit(val2.bits[3], i) << (i - 16));
   }
   cmp = (int)exp1 - (int)exp2;
   if (cmp != 0) {
@@ -153,7 +153,7 @@ int sub(s21_decimal val1, s21_decimal val2, s21_decimal *res) {
     memset(tmp2, '0', len1 - len2);
   }
   strncat(tmp2, str2, len2);
-  sub_str(str1, str2, str_r, len1);
+  sub_str(str1, tmp2, str_r, len1);
   status = bank_round(str_r, 0);
   *res = char_to_decimal(str_r);
   return status;
@@ -163,12 +163,14 @@ void sub_str(char *str1, char *str2, char *str_r, int len) {
   int buf = 0;
 
   memset(str_r, '0', len);
-  for (int i = len; len >= 0; i--) {
+  len -= 1;
+  for (int i = len; i >= 0; i--) {
     if (str1[i] == '.') {
+      str_r[i] = '.';
       continue;
     }
-    buf = (int)(str1[i]);
-    if (str1[i] == '0' && str2[i] != '0') {
+    buf = str1[i] - '0';
+    if (str2[i] > str1[i]) {
       for (int j = i - 1, count = 0; j >= 0; j--) {
         if (str1[j] == '0') {
           count++;
@@ -177,18 +179,19 @@ void sub_str(char *str1, char *str2, char *str_r, int len) {
           if (str1[j] == '.') {
             continue;
           }
-          str1[j] = (char)((int)(str1[j]) - 1);
-          for (; count > 0; count--) {
-            if (str1[j + count] == '.') {
+          str1[j] = ((str1[j] - '0') - 1) + '0';
+          for (; count >= 0; count--) {
+            if (str1[i - 1 - count] == '.') {
               continue;
             }
-            str1[j + count] = '9';
+            str1[i - 1 - count] = '9';
           }
+          break;
         }
       }
       buf += 10;
     }
-    str_r[i] = (char)(buf - (int)(str2[i]));
+    str_r[i] = (buf - (str2[i] - '0')) + '0';
   }
   return;
 }

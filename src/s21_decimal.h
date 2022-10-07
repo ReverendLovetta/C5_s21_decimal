@@ -132,4 +132,6 @@ char *remove_dot(char *dec, char *temp_dec);
 
 void slozhenie(s21_decimal *dst, int exponent);
 
+int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+
 #endif  // SRC_S21_DECIMAL_H_
