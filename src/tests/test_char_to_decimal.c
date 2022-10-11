@@ -492,6 +492,83 @@ START_TEST(char_to_decimal_31) {
 }
 END_TEST
 
+START_TEST(char_to_decimal_32) {
+  char etalon[] = "-7.9228162514264337593543950335";
+  s21_decimal value = {0}, test_value = {0};
+  test_value.bits[0] = UINT_MAX;
+  test_value.bits[1] = UINT_MAX;
+  test_value.bits[2] = UINT_MAX;
+  value = char_to_decimal(etalon);
+  zapis_stepeni_v_decimal(28, &test_value);
+  s21_negate(test_value, &test_value);
+  ck_assert_int_eq(value.bits[0], test_value.bits[0]);
+  ck_assert_int_eq(value.bits[1], test_value.bits[1]);
+  ck_assert_int_eq(value.bits[2], test_value.bits[2]);
+  ck_assert_int_eq(value.bits[3], test_value.bits[3]);
+}
+END_TEST
+
+// отрицательное минимальное значение
+START_TEST(char_to_decimal_33) {
+  char etalon[] = "-429496729.5";
+  s21_decimal value = {0}, test_value = {0};
+  //for (i = 0; i <= 16)
+  test_value.bits[0] = 4294967295;
+  value = char_to_decimal(etalon);
+  zapis_stepeni_v_decimal(1, &test_value);
+  s21_negate(test_value, &test_value);
+  ck_assert_int_eq(value.bits[0], test_value.bits[0]);
+  ck_assert_int_eq(value.bits[1], test_value.bits[1]);
+  ck_assert_int_eq(value.bits[2], test_value.bits[2]);
+  ck_assert_int_eq(value.bits[3], test_value.bits[3]);
+}
+END_TEST
+
+// подается значение превышающее децимал
+START_TEST(char_to_decimal_34) {
+  char etalon[] = "6922816251426433759354395033599";
+  s21_decimal value = {0}, test_value = {0};
+  test_value.bits[0] = UINT_MAX;
+  test_value.bits[1] = UINT_MAX;
+  test_value.bits[2] = UINT_MAX;
+  value = char_to_decimal(etalon);
+  ck_assert_int_eq(value.bits[0], test_value.bits[0]);
+  ck_assert_int_eq(value.bits[1], test_value.bits[1]);
+  ck_assert_int_eq(value.bits[2], test_value.bits[2]);
+  ck_assert_int_eq(value.bits[3], test_value.bits[3]);
+}
+END_TEST
+
+// отрицательный ноль
+START_TEST(char_to_decimal_35) {
+  char etalon[] = "-0";
+  s21_decimal value = {0}, test_value = {0};
+  value = char_to_decimal(etalon);
+  s21_negate(test_value, &test_value);
+  ck_assert_int_eq(value.bits[0], test_value.bits[0]);
+  ck_assert_int_eq(value.bits[1], test_value.bits[1]);
+  ck_assert_int_eq(value.bits[2], test_value.bits[2]);
+  ck_assert_int_eq(value.bits[3], test_value.bits[3]);
+}
+END_TEST
+
+// подается значение превышающее децимал
+START_TEST(char_to_decimal_36) {
+  char etalon[] = "792281625142643375935439.503359877777";
+  s21_decimal value = {0}, test_value = {0};
+  test_value.bits[0] = UINT_MAX;
+  test_value.bits[1] = UINT_MAX;
+  test_value.bits[2] = UINT_MAX;
+  value = char_to_decimal(etalon);
+  zapis_stepeni_v_decimal(8, &test_value);
+  ck_assert_int_eq(value.bits[0], test_value.bits[0]);
+  ck_assert_int_eq(value.bits[1], test_value.bits[1]);
+  ck_assert_int_eq(value.bits[2], test_value.bits[2]);
+  ck_assert_int_eq(value.bits[3], test_value.bits[3]);
+}
+END_TEST
+
+
 Suite *sprintf_test(void) {
   Suite *s;
   TCase *tc_is_char_to_decimal;
@@ -526,13 +603,18 @@ Suite *sprintf_test(void) {
   tcase_add_test(tc_is_char_to_decimal, char_to_decimal_23);
   tcase_add_test(tc_is_char_to_decimal, char_to_decimal_24);
   tcase_add_test(tc_is_char_to_decimal, char_to_decimal_25);
-  tcase_add_test(tc_is_char_to_decimal, char_to_decimal_25);
   tcase_add_test(tc_is_char_to_decimal, char_to_decimal_26);
   tcase_add_test(tc_is_char_to_decimal, char_to_decimal_27);
   tcase_add_test(tc_is_char_to_decimal, char_to_decimal_28);
   tcase_add_test(tc_is_char_to_decimal, char_to_decimal_29);
   tcase_add_test(tc_is_char_to_decimal, char_to_decimal_30);
   tcase_add_test(tc_is_char_to_decimal, char_to_decimal_31);
+
+  tcase_add_test(tc_is_char_to_decimal, char_to_decimal_32);
+  tcase_add_test(tc_is_char_to_decimal, char_to_decimal_33);
+  tcase_add_test(tc_is_char_to_decimal, char_to_decimal_34);
+  tcase_add_test(tc_is_char_to_decimal, char_to_decimal_35);
+  tcase_add_test(tc_is_char_to_decimal, char_to_decimal_36);
   suite_add_tcase(s, tc_is_char_to_decimal);
 
   return s;
