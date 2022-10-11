@@ -1,8 +1,6 @@
 #include "s21_decimal.h"
 
 // Вспомогательные функции для s21_sub():_____________________________
-// Берем число по модулю
-void remove_sign_sub(u_int32_t *val);
 
 // Сравниваем модули чисел
 int compare_val(s21_decimal *val_1, s21_decimal *val_2);
