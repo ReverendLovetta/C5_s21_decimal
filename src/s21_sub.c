@@ -13,9 +13,6 @@ int result_0(s21_decimal *res);
 
 // Вычитает 2 числа (1-е > 2-го). Работает со строками
 void sub_str(char *str1, char *str2, char *str_r, int len);
-
-//
-void remove_sign_sub(u_int32_t *val);
 //_____________________________________________________________________
 
 /* Функция s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal
