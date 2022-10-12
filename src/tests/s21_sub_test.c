@@ -24,7 +24,7 @@ START_TEST(sub_2) {
     char s21_result[BUF] = {'\0'};
     char *a = "-792281625142.64337593543950334";
     char *b = "1444221.30039129847178912395";
-    char *result = "792283069363.9437672339112925";
+    char *result = "-792283069363.9437672339112925";
     s21_decimal number1 = {0};
     s21_decimal number2 = {0};
     number1 = char_to_decimal(a);
@@ -96,7 +96,7 @@ START_TEST(sub_6) {
     char s21_result[BUF] = {'\0'};
     char *a = "-0.00";
     char *b = "-11.5";
-    char *result = "-11.5";
+    char *result = "11.50";
     s21_decimal number1 = {0};
     s21_decimal number2 = {0};
     number1 = char_to_decimal(a);
@@ -114,7 +114,7 @@ START_TEST(sub_7) {
     char s21_result[BUF] = {'\0'};
     char *a = "-0.00";
     char *b = "11.545613";
-    char *result = "11.545613";
+    char *result = "-11.545613";
     s21_decimal number1 = {0};
     s21_decimal number2 = {0};
     number1 = char_to_decimal(a);
@@ -166,7 +166,7 @@ START_TEST(sub_9) {
 }
 END_TEST
 
-// проверка на вычитание с применением округляния в меньшую сторону
+// проверка на вычитание с применением банковского округляния
 START_TEST(sub_10) {
     char s21_result[BUF] = {'\0'};
     char *a = "79228162514264337593543950335";
@@ -185,12 +185,12 @@ START_TEST(sub_10) {
 }
 END_TEST
 
-// проверка на вычитание с применением округляния в большую сторону
+// проверка на вычитание с применением банковского округляния
 START_TEST(sub_11) {
     char s21_result[BUF] = {'\0'};
     char *a = "79228162514264337593543950335";
     char *b = "0.444444444444444444";
-    char *result = "79228162514264337593543950335";
+    char *result = "79228162514264337593543950334";
     s21_decimal number1 = {0};
     s21_decimal number2 = {0};
     number1 = char_to_decimal(a);
@@ -204,7 +204,7 @@ START_TEST(sub_11) {
 }
 END_TEST
 
-// проверка на вычитание с применением округляния в большую сторону
+// проверка на вычитание с применением банковского округляния
 START_TEST(sub_12) {
     char s21_result[BUF] = {'\0'};
     char *a = "-79228162514264337593543950335";
@@ -223,12 +223,12 @@ START_TEST(sub_12) {
 }
 END_TEST
 
-// проверка на вычитание с применением округляния в меньшую сторону
+// проверка на вычитание с применением банковского округляния
 START_TEST(sub_13) {
     char s21_result[BUF] = {'\0'};
     char *a = "-79228162514264337593543950335";
     char *b = "-0.222222222222222222222";
-    char *result = "-79228162514264337593543950335";
+    char *result = "-79228162514264337593543950334";
     s21_decimal number1 = {0};
     s21_decimal number2 = {0};
     number1 = char_to_decimal(a);

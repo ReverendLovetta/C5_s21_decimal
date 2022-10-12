@@ -132,4 +132,11 @@ char *remove_dot(char *dec, char *temp_dec);
 
 void slozhenie(s21_decimal *dst, int exponent);
 
+// Берем число типа s21_decimal по модулю
+void remove_sign_sub(u_int32_t *val);
+
+// Функция для вычитания 2-х чисел типа s21_decimal
+int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+
+
 #endif  // SRC_S21_DECIMAL_H_
