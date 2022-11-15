@@ -78,7 +78,6 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     }
     case 0b00001001: {
       status = s21_add(value_1, value_2, result);
-      sign_0 = 1;
       break;
     }
     case 0b00001010: {
@@ -87,6 +86,7 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     }
     case 0b00001011: {
       status = result_0(result);
+      sign_0 = 1;
       break;
     }
     default: {
